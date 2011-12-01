@@ -61,22 +61,72 @@ public class ImgurDLDisplayArea extends JPanel{
 		  // see javadoc for more info on the parameters
 	 }
 	 
+	 /**
+	  * Paint the program stats to the screen
+	  * @param g
+	  */
 	 public void paintStats(Graphics g){
-		 	Color c = g.getColor();
+		    paintKbits(g);
+		    paintQueueSize(g);
+		    paintNumDownloaded(g);
+		    paintNumTotal(g);
+		    paintPagesSearched(g);
+		 
+	 }
+	 
+	 private void paintPagesSearched(Graphics g){
+		 Color c = g.getColor();
 		 	g.setColor(Color.GREEN);
-	       // g.drawString(, 40, 10);
-	        g.drawString("Kbit/s: " + String.valueOf(parent.parent.parent.downloader.totalKbPerSec).substring(0,String.valueOf(parent.parent.parent.downloader.totalKbPerSec).length()/2 ), 10, 10);
-	      // g.drawString(str, x, y)
-	        
-	        
+	        g.drawString("Pages Searched: " + String.valueOf(parent.parent.parent.downloader.statsTracker.totalPagesSearched), 170, 20);
 	        g.setColor(c);
 	 }
+	 
+	 private void paintNumTotal(Graphics g){
+		 Color c = g.getColor();
+		 	g.setColor(Color.GREEN);
+	        g.drawString("Total in Folder: " + String.valueOf(parent.parent.parent.downloader.statsTracker.totalInFolder), 170, 10);
+	        g.setColor(c);
+	 }
+	 
+	 /**
+	  * Paint the number of downloaded pics to the screen
+	  * @param g
+	  */
+	 private void paintNumDownloaded(Graphics g){
+		 	Color c = g.getColor();
+		 	g.setColor(Color.GREEN);
+	        g.drawString("Downloaded: " + String.valueOf(parent.parent.parent.downloader.statsTracker.totalPicsDownloaded), 380, 10);
+	        g.setColor(c);
+	 }
+	 
+	 /**
+	  * Paint the Current Queue Size to the screen
+	  * @param g
+	  */
+	 private void paintQueueSize(Graphics g){
+		 Color c = g.getColor();
+		 	g.setColor(Color.GREEN);
+	        g.drawString("Queued: " + String.valueOf(parent.parent.parent.downloader.queue.size()), 10, 20);
+	        g.setColor(c);
+	 }
+	 
+	 /**
+	  * Paint the current Kbits per sec to the screen
+	  * @param g The Graphics Context
+	  */
+	 private void paintKbits(Graphics g){
+			Color c = g.getColor();
+		 	g.setColor(Color.GREEN);
+	        g.drawString("Kbit/s: " + String.valueOf(parent.parent.parent.downloader.statsTracker.totalKbPerSec).substring(0,String.valueOf(parent.parent.parent.downloader.statsTracker.totalKbPerSec).length()/2 ), 10, 10);
+	        g.setColor(c);
+	 }
+	 
 	 
 	 /**
 	  * Paints all images in queue to screen.
 	  * @param g The graphics context
 	  */
-	public void paintPictures(Graphics g){
+	private void paintPictures(Graphics g){
 		for(int i = 0; i <4; i++){
 			for(int n = 0; n <4; n++){
 				int j = convertBase4(i, n);
@@ -99,7 +149,7 @@ public class ImgurDLDisplayArea extends JPanel{
 		int ones = n*1;
 		
 		int answer = tens+ones;
-		System.err.println("tens: " + i + " Ones: " + n + " Answer: " + answer);
+		//System.err.println("tens: " + i + " Ones: " + n + " Answer: " + answer);
 		return answer;
 	}
 	 

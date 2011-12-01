@@ -11,7 +11,7 @@ public class DownloadQueue extends LinkedList<String> implements Queue<String>{
 
 	FileTracker fileTracker;
 	LinkedList<String>done;
-	ImgurGalleryDownloader parent;
+	public ImgurGalleryDownloader parent;
 	/**
 	 * Constructor
 	 */

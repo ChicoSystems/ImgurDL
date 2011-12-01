@@ -57,10 +57,10 @@ public class PictureDownloader {
 	  */
 	 public void download(String s){
 		 try {
-			 //if(s == null){
-			//	 System.err.println("malformed url");
-			//	 return;
-			 //}
+			 if(s == null){
+				 System.err.println("malformed url");
+				 return;
+			 }
 			 System.out.println("Downloading: " + s);
 			   BufferedImage img;
 	    	   URL u = new URL(s);
@@ -73,6 +73,7 @@ public class PictureDownloader {
 	           parent.parent.parent.gui.mainCanvas.displayArea.addPicToQueue(resize(img, 125, 125));
 	           }
 	           save(img, fileName, ext);
+	           parent.parent.statsTracker.totalPicsDownloaded++;
 	       } catch (IOException e) {
 	    	   System.err.println(e);
 	       }

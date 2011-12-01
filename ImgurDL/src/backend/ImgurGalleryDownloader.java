@@ -24,24 +24,14 @@ public class ImgurGalleryDownloader extends Thread{
 	
 	int sindex;
 	
-	public float bitsPerSec;
-	public float totalBitsPerSec;
-	public float kbPerSec;
-	public float totalKbPerSec;
-	public float mbPerSec;
-	public float totalMbPerSec;
-	public long currentbits;
-	public long totalbits; //Keeps track of total bits downloaded
-	public double elapsedTime;
-	public double startTime;
-	public double currentTime;
-	public double runTime;
+
 	
 	static int QUEUE_THRESH = 40;
 	static int TIME_PAUSE = 20;
 	static int SIM_DLS = 2; //Simultaneous downloads allowed at one time.
 	ImgurDLMain parent = null; //The Optional GUI Parent
-	DownloadQueue queue;
+	public StatsTracker statsTracker;
+	public DownloadQueue queue;
 	DownloadQueueProcessor[] qProcessors;
 	boolean isRunning;
 	String gal;
@@ -63,12 +53,8 @@ public class ImgurGalleryDownloader extends Thread{
 	 */
 	public ImgurGalleryDownloader(){
 		isRunning = true;
-		totalbits = 0;
-		currentbits = 0;
-		runTime = 0;
-		startTime = System.currentTimeMillis();
 		queue = new DownloadQueue(this);
-		
+		statsTracker = new StatsTracker(this);
 		
 		//Initialize the qProcessors according to SIM_DLS number
 		qProcessors = new DownloadQueueProcessor[SIM_DLS];
@@ -157,6 +143,7 @@ public class ImgurGalleryDownloader extends Thread{
 	        } while(br.readLine() != null);
 	      }
 	      catch (MalformedURLException ex) {
+	    	  System.err.println("Malformed URL: " + currentPageURL);
 	        System.err.println(ex);
 	        return "0";
 	      } 
@@ -235,6 +222,7 @@ public class ImgurGalleryDownloader extends Thread{
 	 * @return The URL of the first page of the Gallery, in a String
 	 */
 	public String getFirstPage(String gallery){
+		statsTracker.totalPagesSearched++;
 		return gallery+"/page/0";
 	}
 	
@@ -244,6 +232,7 @@ public class ImgurGalleryDownloader extends Thread{
 	 * @return The next page of the gallery.
 	 */
 private String getNextPage(String currentPage){
+	statsTracker.totalPagesSearched++;
 	int pageNum = Integer.valueOf(currentPage.substring(currentPage.length()-1));//last char of string
 	pageNum +=1;
 	String newPage = currentPage.substring(0, currentPage.length()-1)+pageNum;
@@ -254,26 +243,12 @@ private String getNextPage(String currentPage){
 	}
 
 	public synchronized void addBits(int b){
-		totalbits += b;
-		currentbits = b;
+		statsTracker.totalbits += b;
+		statsTracker.currentbits = b;
 	}
 	
 	public void updateStats(){
-		currentTime = System.currentTimeMillis();
-		elapsedTime = currentTime - startTime;
-		runTime += elapsedTime;
-		//System.err.println("ElapsedTime: " + elapsedTime + " : " + "RunTime: " + runTime);
-		//System.err.println("Totalbits: " + totalbits + "Currentbits: " + currentbits);
-		bitsPerSec = (float) (currentbits / elapsedTime) ;
-		totalBitsPerSec = (float) (totalbits / runTime);
-		kbPerSec = bitsPerSec / 1024;
-		totalKbPerSec = totalBitsPerSec / 1024;
-		mbPerSec = kbPerSec / 1024;
-		totalMbPerSec = totalKbPerSec / 1024;
-		System.out.println("KB/S: " + totalKbPerSec + " ElapsedTime: " + elapsedTime);
-		
-		//reset things that need reset
-		startTime = currentTime;
+		statsTracker.update();
 	}
 
 }

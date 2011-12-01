@@ -12,7 +12,7 @@ import java.util.LinkedList;
  *
  */
 public class FileTracker {
-	LinkedList<String> downloadedFiles ;
+	public LinkedList<String> downloadedFiles ;
 	
 	public FileTracker(){
 		downloadedFiles = new LinkedList<String>();
