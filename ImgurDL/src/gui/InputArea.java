@@ -72,8 +72,13 @@ public class InputArea extends JPanel{
                 System.out.println("You clicked the button");
                 String gallery = textField.getText();
                 gallery = gallery.toLowerCase();
+                if(!gallery.endsWith("/")){
+                	gallery = gallery.substring(0, gallery.length()-1);
+                }
                 if(!gallery.startsWith("http")){
                 	parent.parent.parent.mainCanvas.header.inputArea.textField.setText("Not a HTTP address. Try Another");
+                }else if(!gallery.startsWith("http://imgur.com/")){
+                	parent.parent.parent.mainCanvas.header.inputArea.textField.setText("Not an Imgur Gallery. Try Another");
                 }else{
                 	
                 	//if(!beenPressed){
