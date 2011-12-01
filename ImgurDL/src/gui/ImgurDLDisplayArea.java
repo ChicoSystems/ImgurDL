@@ -54,9 +54,22 @@ public class ImgurDLDisplayArea extends JPanel{
 	 */
 	 public void paintComponent(Graphics g) {
 		 super.paintComponent(g);
+
 	      paintPictures(g);
-		 
+	      paintStats(g);
+	
 		  // see javadoc for more info on the parameters
+	 }
+	 
+	 public void paintStats(Graphics g){
+		 	Color c = g.getColor();
+		 	g.setColor(Color.GREEN);
+	       // g.drawString(, 40, 10);
+	        g.drawString("Kbit/s: " + String.valueOf(parent.parent.parent.downloader.totalKbPerSec).substring(0,String.valueOf(parent.parent.parent.downloader.totalKbPerSec).length()/2 ), 10, 10);
+	      // g.drawString(str, x, y)
+	        
+	        
+	        g.setColor(c);
 	 }
 	 
 	 /**

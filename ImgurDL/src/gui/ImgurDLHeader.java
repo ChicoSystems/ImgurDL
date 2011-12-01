@@ -72,7 +72,7 @@ public class ImgurDLHeader extends JPanel{
 	 */
     public void paintComponent(Graphics g) {
         g.drawImage(logo, (getWidth()/8), 60, null); // see javadoc for more info on the parameters
-
+       
     }
 	
 	

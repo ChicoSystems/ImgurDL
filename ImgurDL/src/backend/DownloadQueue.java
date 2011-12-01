@@ -11,11 +11,13 @@ public class DownloadQueue extends LinkedList<String> implements Queue<String>{
 
 	FileTracker fileTracker;
 	LinkedList<String>done;
+	ImgurGalleryDownloader parent;
 	/**
 	 * Constructor
 	 */
-	public DownloadQueue(){
+	public DownloadQueue(ImgurGalleryDownloader p){
 		super();
+		parent = p;
 		fileTracker = new FileTracker();
 		done = new LinkedList<String>();
 	}
@@ -72,7 +74,8 @@ public class DownloadQueue extends LinkedList<String> implements Queue<String>{
 	 * @return The First Item Up
 	 */
 	synchronized public String deQueue(){
-		System.err.println("Queued: " + super.size() + " Done: " + done.size());
+		//System.err.println("Queued: " + super.size() + " Done: " + done.size());
+		parent.updateStats();
 		return super.removeFirst();
 	}
 	
