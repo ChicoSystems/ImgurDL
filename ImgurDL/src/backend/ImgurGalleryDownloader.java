@@ -40,7 +40,7 @@ public class ImgurGalleryDownloader extends Thread{
 	public static void main(String[] args) {
 		System.err.println("MAIN RUNNING");
 		ImgurGalleryDownloader dl = new ImgurGalleryDownloader();
-		dl.download("http://imgur.com/r/gonewild/hot");
+		dl.download("http://imgur.com/r/EarthPorn");
 		dl.start();
 		//dl.download(args[0]);
 	}
