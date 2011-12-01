@@ -63,8 +63,10 @@ public class PictureDownloader {
 	           String ext = getExt(s);
 	           System.out.println(fileName + "." + ext);
 	           //ADD PIC TO GUI QUEUE HERE
+	           if(parent.parent.parent != null){
 	           parent.parent.parent.gui.mainCanvas.displayArea.addPicToQueue(resize(img, 125, 125));
-	    	   save(img, fileName, ext);
+	           }
+	           save(img, fileName, ext);
 	       } catch (IOException e) {
 	    	   System.err.println(e);
 	       }

@@ -32,7 +32,11 @@ public class FileTracker {
 	
 	public boolean doesExist(String file){
 	
+		if(file != null){
+		file = file.substring(file.length()-9, file.length());
+		}
 		return downloadedFiles.contains(file);
+		
 	}
 	
 	

@@ -26,7 +26,7 @@ public class ImgurGalleryDownloader extends Thread{
 	
 	static int QUEUE_THRESH = 40;
 	static int TIME_PAUSE = 20;
-	static int SIM_DLS = 5; //Simultaneous downloads allowed at one time.
+	static int SIM_DLS = 2; //Simultaneous downloads allowed at one time.
 	ImgurDLMain parent = null; //The Optional GUI Parent
 	DownloadQueue queue;
 	DownloadQueueProcessor[] qProcessors;
