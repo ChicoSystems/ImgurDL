@@ -9,12 +9,16 @@ import java.util.Queue;
  */
 public class DownloadQueue extends LinkedList<String> implements Queue<String>{
 
+	FileTracker fileTracker;
 	LinkedList<String>done;
+	public ImgurGalleryDownloader parent;
 	/**
 	 * Constructor
 	 */
-	public DownloadQueue(){
+	public DownloadQueue(ImgurGalleryDownloader p){
 		super();
+		parent = p;
+		fileTracker = new FileTracker();
 		done = new LinkedList<String>();
 	}
 	
@@ -46,7 +50,7 @@ public class DownloadQueue extends LinkedList<String> implements Queue<String>{
 	 */
 	synchronized public void enQueue(String s){
 		
-		if(!isDone(s)){
+		if(!isDone(s) && !fileTracker.doesExist(s)){
 			addDone(s);
 			super.addLast(s);
 		}
@@ -70,7 +74,8 @@ public class DownloadQueue extends LinkedList<String> implements Queue<String>{
 	 * @return The First Item Up
 	 */
 	synchronized public String deQueue(){
-		System.err.println("Queued: " + super.size() + " Done: " + done.size());
+		//System.err.println("Queued: " + super.size() + " Done: " + done.size());
+		parent.updateStats();
 		return super.removeFirst();
 	}
 	
