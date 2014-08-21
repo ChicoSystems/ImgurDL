@@ -36,8 +36,11 @@ public class DownloadQueueProcessor extends Thread{
 			}
 			
 			if(!parent.queue.isEmpty()){
+				
 				String picToDL = parent.queue.deQueue();
-				picDownloader.download(picToDL);
+				//if(picToDL != null)
+					picDownloader.download(picToDL);
+				
 			}
 			
 			try {

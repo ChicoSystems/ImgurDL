@@ -2,6 +2,7 @@ package backend;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -56,6 +57,11 @@ public class PictureDownloader {
 	  */
 	 public void download(String s){
 		 try {
+			 if(s == null){
+				 System.err.println("malformed url");
+				 return;
+			 }
+			 System.out.println("Downloading: " + s);
 			   BufferedImage img;
 	    	   URL u = new URL(s);
 	    	   img = ImageIO.read(u);
@@ -63,8 +69,11 @@ public class PictureDownloader {
 	           String ext = getExt(s);
 	           System.out.println(fileName + "." + ext);
 	           //ADD PIC TO GUI QUEUE HERE
+	           if(parent.parent.parent != null){
 	           parent.parent.parent.gui.mainCanvas.displayArea.addPicToQueue(resize(img, 125, 125));
-	    	   save(img, fileName, ext);
+	           }
+	           save(img, fileName, ext);
+	           parent.parent.statsTracker.totalPicsDownloaded++;
 	       } catch (IOException e) {
 	    	   System.err.println(e);
 	       }
@@ -131,7 +140,7 @@ public class PictureDownloader {
 	 private void save(BufferedImage image, String fileName, String ext) {
 	        File file = new File(fileName + "." + ext);
 	        try {
-	        	
+	        	ByteArrayOutputStream tmp = new ByteArrayOutputStream();
 	            ImageIO.write(image, ext, file);  // ignore returned boolean
 	        } catch(IOException e) {
 	            System.out.println("Write error for " + file.getPath() +

@@ -39,11 +39,12 @@ public class GUIManager {
 	}
 	
 	public void downloadGallery(String gallery){
+		//dlThread.stop();
 		dlThread.setGallery(gallery);
-		//if(!dlThread.isAlive()){
+		if(!dlThread.isAlive()){
 			
 			dlThread.start();
-		//}
+		}
 		
 	}
 	

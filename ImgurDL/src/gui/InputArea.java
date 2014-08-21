@@ -18,6 +18,7 @@ import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
@@ -29,9 +30,10 @@ import javax.swing.plaf.metal.MetalBorders;
  *
  */
 public class InputArea extends JPanel{
-
 	static String TEXTFIELD_STRING = "Input URL To Imgur Gallery.";
 	ImgurDLHeader parent; /** The Header, Parent of this Class. */
+	JPanel statsPanel; /** Panel to display stats on.*/
+	JLabel panelLabel;
 	JTextField textField; /** The Box that user inputs Text into. */
 	DownloadButton button; /** The button you press to download. */
 	boolean beenPressed = false;
@@ -46,9 +48,8 @@ public class InputArea extends JPanel{
 		setupInputArea();
 		setupTextField();
 		setupButton();
-		
+		setupStatsPanel();
 	}
-	
 	/**
 	 * Setup Input area's button.
 	 */
@@ -66,15 +67,19 @@ public class InputArea extends JPanel{
                 System.out.println("You clicked the button");
                 String gallery = textField.getText();
                 gallery = gallery.toLowerCase();
+                if(!gallery.endsWith("/")){
+                	gallery = gallery.substring(0, gallery.length()-1);
+                }
                 if(!gallery.startsWith("http")){
                 	parent.parent.parent.mainCanvas.header.inputArea.textField.setText("Not a HTTP address. Try Another");
+                }else if(!gallery.startsWith("http://imgur.com/")){
+                	parent.parent.parent.mainCanvas.header.inputArea.textField.setText("Not an Imgur Gallery. Try Another");
                 }else{
                 	
-                	if(!beenPressed){
+                	//if(!beenPressed){
                 		parent.parent.parent.guiManager.downloadGallery(gallery);
                         beenPressed = true;
-                	}
-                
+                	//}
                 }
             }
         });
@@ -85,6 +90,14 @@ public class InputArea extends JPanel{
 	 */
 	public void setupInputArea(){
 		this.setBackground(new Color(43,43,43));
+	}
+	
+	public void setupStatsPanel(){
+		statsPanel = new JPanel();
+		
+		panelLabel = new JLabel("Stats");
+		panelLabel.
+		add(statsPanel);
 	}
 	
 	/**

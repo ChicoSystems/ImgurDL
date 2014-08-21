@@ -23,16 +23,15 @@ import java.util.ArrayList;
 public class ImgurGalleryDownloader extends Thread{
 	
 	int sindex;
-	
 	static int QUEUE_THRESH = 40;
 	static int TIME_PAUSE = 20;
-	static int SIM_DLS = 5; //Simultaneous downloads allowed at one time.
+	static int SIM_DLS = 2; //Simultaneous downloads allowed at one time.
 	ImgurDLMain parent = null; //The Optional GUI Parent
-	DownloadQueue queue;
+	public StatsTracker statsTracker;
+	public DownloadQueue queue;
 	DownloadQueueProcessor[] qProcessors;
 	boolean isRunning;
 	String gal;
-	
 
 	/**
 	 * @param args The Imgur Gallery To download.
@@ -40,7 +39,7 @@ public class ImgurGalleryDownloader extends Thread{
 	public static void main(String[] args) {
 		System.err.println("MAIN RUNNING");
 		ImgurGalleryDownloader dl = new ImgurGalleryDownloader();
-		dl.download("http://imgur.com/r/gonewild/hot");
+		dl.download("http://imgur.com/gallery");
 		dl.start();
 		//dl.download(args[0]);
 	}
@@ -50,8 +49,8 @@ public class ImgurGalleryDownloader extends Thread{
 	 */
 	public ImgurGalleryDownloader(){
 		isRunning = true;
-		queue = new DownloadQueue();
-		
+		queue = new DownloadQueue(this);
+		statsTracker = new StatsTracker(this);
 		
 		//Initialize the qProcessors according to SIM_DLS number
 		qProcessors = new DownloadQueueProcessor[SIM_DLS];
@@ -93,9 +92,15 @@ public class ImgurGalleryDownloader extends Thread{
 		String currentPage = getFirstPage(gal);
 		while(currentPage != null && isRunning){
 			String[] foundLinks = extractLinks(currentPage); //list of links found on current page.
+			
+			//if(foundLinks != null){
 			queue.enQueue(foundLinks);
+			//}
+			
 			currentPage = getNextPage(currentPage);
+			
 		}
+		System.err.println("current page = null");
 	}
 	
 	
@@ -106,8 +111,9 @@ public class ImgurGalleryDownloader extends Thread{
 	 * @return An array of links extracted from page.
 	 */
 	public String[] extractLinks(String currentPageURL){
-		System.err.println("ExtractLinks : " + currentPageURL);
+		//System.err.println("ExtractLinks : " + currentPageURL);
 		String pageHTML = extractHTML(currentPageURL);
+		//if(pageHTML == null)return null;
 		String[] extractedLinks = findLinks(pageHTML);
 		return extractedLinks;
 		
@@ -119,7 +125,7 @@ public class ImgurGalleryDownloader extends Thread{
 	 * @return THE HTML STRING
 	 */
 	private String extractHTML(String currentPageURL){
-		System.err.println("Extract HTML : " + currentPageURL);
+		//System.err.println("Extract HTML : " + currentPageURL);
 		String theLine = "";
 		try {
 	        URL u = new URL(currentPageURL);
@@ -133,6 +139,7 @@ public class ImgurGalleryDownloader extends Thread{
 	        } while(br.readLine() != null);
 	      }
 	      catch (MalformedURLException ex) {
+	    	  System.err.println("Malformed URL: " + currentPageURL);
 	        System.err.println(ex);
 	        return "0";
 	      } 
@@ -150,7 +157,7 @@ public class ImgurGalleryDownloader extends Thread{
 	 * @return An array of Links in String format
 	 */
 	private String[] findLinks(String pageHTML){
-		System.err.println("FindLinks : " + pageHTML);
+		//System.err.println("FindLinks : " + pageHTML);
 		ArrayList<String>links = new ArrayList<String>();
 		
 		if(pageHTML.contains("<div class=\"posts\">")){
@@ -159,9 +166,10 @@ public class ImgurGalleryDownloader extends Thread{
 			links.add(getNextLink(pageHTML)); //adds the next link to list
 			while(sindex >= oldsindex){
 				links.add(getNextLink(pageHTML)); //adds the next link to list
+				updateStats();
 				if(queue.size() >= QUEUE_THRESH*2){
 					try {
-						System.err.println("Main BIG Sleeping: " + TIME_PAUSE*queue.size()*queue.size());
+						//System.err.println("Main BIG Sleeping: " + TIME_PAUSE*queue.size()*queue.size());
 						Thread.sleep(TIME_PAUSE*queue.size()*queue.size());
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
@@ -169,7 +177,7 @@ public class ImgurGalleryDownloader extends Thread{
 					}
 				}else if(queue.size() >= QUEUE_THRESH){
 					try {
-						System.err.println("Main Little Sleeping: " + TIME_PAUSE*queue.size());
+						//System.err.println("Main Little Sleeping: " + TIME_PAUSE*queue.size());
 						Thread.sleep(TIME_PAUSE*queue.size());
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
@@ -193,7 +201,7 @@ public class ImgurGalleryDownloader extends Thread{
 	 * @return The next Link Found
 	 */
 	private String getNextLink(String pageHTML){
-		System.err.println("GetNextLink: " + sindex);
+		//System.err.println("GetNextLink: " + sindex);
 		sindex = pageHTML.indexOf("<img alt=\"\" src=\"", sindex); 
 		sindex = pageHTML.indexOf("http", sindex); //find where next link starts
 		int eindex = pageHTML.indexOf("\" title", sindex); //this is where next link ends
@@ -219,6 +227,7 @@ public class ImgurGalleryDownloader extends Thread{
 	 * @return The next page of the gallery.
 	 */
 private String getNextPage(String currentPage){
+	statsTracker.totalPagesSearched++;
 	int pageNum = Integer.valueOf(currentPage.substring(currentPage.length()-1));//last char of string
 	pageNum +=1;
 	String newPage = currentPage.substring(0, currentPage.length()-1)+pageNum;
@@ -226,6 +235,15 @@ private String getNextPage(String currentPage){
 	
 	//return currentPage;
 		
+	}
+
+	public synchronized void addBits(int b){
+		statsTracker.totalbits += b;
+		statsTracker.currentbits = b;
+	}
+	
+	public void updateStats(){
+		statsTracker.update();
 	}
 
 }
