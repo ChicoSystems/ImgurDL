@@ -114,7 +114,7 @@ public class ImgurGalleryDownloader extends Thread{
 		//System.err.println("ExtractLinks : " + currentPageURL);
 		String pageHTML = extractHTML(currentPageURL);
 		//if(pageHTML == null)return null;
-		String[] extractedLinks = findLinks(pageHTML);
+		String[] extractedLinks = findLinks(pageHTML, currentPageURL);
 		return extractedLinks;
 		
 	}
@@ -156,18 +156,19 @@ public class ImgurGalleryDownloader extends Thread{
 	 * @param pageHTML The Gallery Page to search
 	 * @return An array of Links in String format
 	 */
-	private String[] findLinks(String pageHTML){
-		//System.err.println("FindLinks : " + pageHTML);
+	private String[] findLinks(String pageHTML, String currentPageURL){
+		System.err.println("FindLinks : " + pageHTML);
 		ArrayList<String>links = new ArrayList<String>();
 		
 		//imgur has changed their html classes, we'll use this to make changes easier
-		String postDelimiter = "<div class=\"posts";
+		String postDelimiter = "id=\"imagelist";
 		
 		if(pageHTML.contains(postDelimiter)){
 			sindex = pageHTML.indexOf(postDelimiter); //find where posts start
 			int oldsindex = sindex;
 			links.add(getNextLink(pageHTML)); //adds the next link to list
 			while(sindex >= oldsindex){
+				oldsindex = sindex;
 				links.add(getNextLink(pageHTML)); //adds the next link to list
 				updateStats();
 				if(queue.size() >= QUEUE_THRESH*2){
@@ -190,9 +191,10 @@ public class ImgurGalleryDownloader extends Thread{
 			}
 		}
 		
-		String[] foundLinks = new String[links.size()];
+		String[] foundLinks = new String[links.size()-1];
 		for(int i = 0; i < links.size()-1; i++){
-			foundLinks[i] = links.get(i);
+			foundLinks[i] = "http://";
+			foundLinks[i] += links.get(i);
 		}
 		return foundLinks;
 	}
@@ -206,8 +208,8 @@ public class ImgurGalleryDownloader extends Thread{
 	private String getNextLink(String pageHTML){
 		//System.err.println("GetNextLink: " + sindex);
 		sindex = pageHTML.indexOf("<img alt=\"\" src=\"", sindex); 
-		sindex = pageHTML.indexOf("http", sindex); //find where next link starts
-		int eindex = pageHTML.indexOf("\" title", sindex); //this is where next link ends
+		sindex = pageHTML.indexOf("i.imgur", sindex); //find where next link starts
+		int eindex = pageHTML.indexOf("\" />", sindex); //this is where next link ends
 		if(sindex == -1 || eindex == -1) return "0";
 		String nextLink = ((String) pageHTML.subSequence(sindex, eindex)); //this is the next link
 		int dotIndex = nextLink.indexOf('.', 15);

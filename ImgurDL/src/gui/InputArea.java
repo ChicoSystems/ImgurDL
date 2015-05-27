@@ -67,7 +67,7 @@ public class InputArea extends JPanel{
                 System.out.println("You clicked the button");
                 String gallery = textField.getText();
                 gallery = gallery.toLowerCase();
-                if(!gallery.endsWith("/")){
+                if(gallery.endsWith("/")){ //remove last /
                 	gallery = gallery.substring(0, gallery.length()-1);
                 }
                 if(!gallery.startsWith("http")){
