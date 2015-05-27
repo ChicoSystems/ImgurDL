@@ -4,7 +4,10 @@ Just Launch the program and paste an Imgur gallery
 URL into the specified location. IE http://imgur.com/gallery
 Hit download and ImgurDL will take care of the rest.
 
-____________________________________________________________
+version 0.0.4
+
+-App was broken again because Imgur changed their html setup
+__________________________________________________________
 Version 0.0.3
 
 -Program Works again.
