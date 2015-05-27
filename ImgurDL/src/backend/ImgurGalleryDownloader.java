@@ -160,8 +160,11 @@ public class ImgurGalleryDownloader extends Thread{
 		//System.err.println("FindLinks : " + pageHTML);
 		ArrayList<String>links = new ArrayList<String>();
 		
-		if(pageHTML.contains("<div class=\"posts\">")){
-			sindex = pageHTML.indexOf("<div class=\"posts\">"); //find where posts start
+		//imgur has changed their html classes, we'll use this to make changes easier
+		String postDelimiter = "<div class=\"posts";
+		
+		if(pageHTML.contains(postDelimiter)){
+			sindex = pageHTML.indexOf(postDelimiter); //find where posts start
 			int oldsindex = sindex;
 			links.add(getNextLink(pageHTML)); //adds the next link to list
 			while(sindex >= oldsindex){
