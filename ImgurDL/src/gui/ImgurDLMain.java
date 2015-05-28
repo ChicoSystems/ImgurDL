@@ -16,7 +16,7 @@ import backend.ImgurGalleryDownloader;
 public class ImgurDLMain extends JFrame{
 	
 	static int WIDTH_MAINCANVAS = 500;
-	static int HEIGHT_MAINCANVAS = 750;
+	static int HEIGHT_MAINCANVAS = 780;
 	static String TITLE = "ImgurDL";
 	public ImgurDLGUI gui; /** THE GUI */
 	public ImgurGalleryDownloader downloader; /** The Downloader */
@@ -54,7 +54,7 @@ public class ImgurDLMain extends JFrame{
             }
         });
 		
-		 this.setPreferredSize(new Dimension(500,750));
+		 this.setPreferredSize(new Dimension(WIDTH_MAINCANVAS,HEIGHT_MAINCANVAS));
 		 super.pack();
 		 setLocation(200, 10);
 		 this.setLayout(getLayout());

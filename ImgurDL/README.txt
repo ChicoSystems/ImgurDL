@@ -4,6 +4,12 @@ Just Launch the program and paste an Imgur gallery
 URL into the specified location. IE http://imgur.com/gallery
 Hit download and ImgurDL will take care of the rest.
 
+Version 0.0.5
+
+- Updated default input text.
+- Resized app to stop pics from being cut off.
+- Moved Stats text to top of app.
+
 version 0.0.4
 
 -App was broken again because Imgur changed their html setup
