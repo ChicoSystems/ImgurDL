@@ -41,6 +41,7 @@ public class MainCanvas extends JPanel{
 	 * Sets up the size and location of the mainCanvas.
 	 */
 	public void setupCanvas(){
+		//setPreferredSize(new Dimension(500,1000));
 		this.setBackground(BACKGROUND_COLOR);
 		setLayout(new BorderLayout());
 		parent.parent.add(this);
