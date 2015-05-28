@@ -30,7 +30,7 @@ import javax.swing.plaf.metal.MetalBorders;
  *
  */
 public class InputArea extends JPanel{
-	static String TEXTFIELD_STRING = "Input URL To Imgur Gallery.";
+	static String TEXTFIELD_STRING = "http://imgur.com/r/wallpaper";
 	ImgurDLHeader parent; /** The Header, Parent of this Class. */
 	JPanel statsPanel; /** Panel to display stats on.*/
 	JLabel panelLabel;

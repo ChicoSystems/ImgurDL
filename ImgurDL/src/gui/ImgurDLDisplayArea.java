@@ -46,6 +46,7 @@ public class ImgurDLDisplayArea extends JPanel{
 	public void addPicToQueue(BufferedImage img) {
 		// TODO Auto-generated method stub
 		imageQueue.addPic(img);
+		parent.header.repaint();
 		repaint();
 	}
 	
@@ -54,73 +55,8 @@ public class ImgurDLDisplayArea extends JPanel{
 	 */
 	 public void paintComponent(Graphics g) {
 		 super.paintComponent(g);
-
-	      paintPictures(g);
-	      paintStats(g);
-	
-		  // see javadoc for more info on the parameters
+		 paintPictures(g);
 	 }
-	 
-	 /**
-	  * Paint the program stats to the screen
-	  * @param g
-	  */
-	 public void paintStats(Graphics g){
-		    paintKbits(g);
-		    paintQueueSize(g);
-		    paintNumDownloaded(g);
-		    paintNumTotal(g);
-		    paintPagesSearched(g);
-		 
-	 }
-	 
-	 private void paintPagesSearched(Graphics g){
-		 Color c = g.getColor();
-		 	g.setColor(Color.GREEN);
-	        g.drawString("Pages Searched: " + String.valueOf(parent.parent.parent.downloader.statsTracker.totalPagesSearched), 170, 20);
-	        g.setColor(c);
-	 }
-	 
-	 private void paintNumTotal(Graphics g){
-		 Color c = g.getColor();
-		 	g.setColor(Color.GREEN);
-	        g.drawString("Total in Folder: " + String.valueOf(parent.parent.parent.downloader.statsTracker.totalInFolder), 170, 10);
-	        g.setColor(c);
-	 }
-	 
-	 /**
-	  * Paint the number of downloaded pics to the screen
-	  * @param g
-	  */
-	 private void paintNumDownloaded(Graphics g){
-		 	Color c = g.getColor();
-		 	g.setColor(Color.GREEN);
-	        g.drawString("Downloaded: " + String.valueOf(parent.parent.parent.downloader.statsTracker.totalPicsDownloaded), 380, 10);
-	        g.setColor(c);
-	 }
-	 
-	 /**
-	  * Paint the Current Queue Size to the screen
-	  * @param g
-	  */
-	 private void paintQueueSize(Graphics g){
-		 Color c = g.getColor();
-		 	g.setColor(Color.GREEN);
-	        g.drawString("Queued: " + String.valueOf(parent.parent.parent.downloader.queue.size()), 10, 20);
-	        g.setColor(c);
-	 }
-	 
-	 /**
-	  * Paint the current Kbits per sec to the screen
-	  * @param g The Graphics Context
-	  */
-	 private void paintKbits(Graphics g){
-			Color c = g.getColor();
-		 	g.setColor(Color.GREEN);
-	        g.drawString("Kbit/s: " + String.valueOf(parent.parent.parent.downloader.statsTracker.totalKbPerSec).substring(0,String.valueOf(parent.parent.parent.downloader.statsTracker.totalKbPerSec).length()/2 ), 10, 10);
-	        g.setColor(c);
-	 }
-	 
 	 
 	 /**
 	  * Paints all images in queue to screen.
