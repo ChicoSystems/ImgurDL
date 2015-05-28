@@ -20,7 +20,7 @@ import javax.swing.JPanel;
 public class ImgurDLHeader extends JPanel{
 
 	
-	static String LOGO_URL = "http://i.imgur.com/CcJgF.png";
+	static String LOGO_URL = "http://i.imgur.com/xliw7W1.png";
 	public MainCanvas parent; 	/** The MainCanvas of GUI. Parent of me. */
 	public BufferedImage logo; 			/** The logo of ImgurDL. */
 	public InputArea inputArea; /** The input area of ImgurDL. */
