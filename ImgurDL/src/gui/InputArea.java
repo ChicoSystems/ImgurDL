@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -89,15 +90,14 @@ public class InputArea extends JPanel{
 	 * Setup The input area.
 	 */
 	public void setupInputArea(){
-		this.setBackground(new Color(43,43,43));
+		this.setBackground(new Color(31, 30, 27));
 	}
 	
 	public void setupStatsPanel(){
 		statsPanel = new JPanel();
 		
 		panelLabel = new JLabel("Stats");
-		panelLabel.
-		add(statsPanel);
+		panelLabel.add(statsPanel);
 	}
 	
 	/**
@@ -107,16 +107,17 @@ public class InputArea extends JPanel{
 		
 		textField = new JTextField(20);
 		textField.setPreferredSize(new Dimension(8,30));
-		textField.setBackground(new Color(100, 100, 100));
+		textField.setBackground(new Color(31, 30, 27));
 		textField.setForeground(Color.WHITE);
 		textField.setBorder(null);
-		textField.setBorder(MetalBorders.getTextFieldBorder());
+		//textField.setBorder(MetalBorders.getTextFieldBorder());
+		textField.setBorder(BorderFactory.createLineBorder(new Color(143, 143, 143)));
 		textField.setFont(new Font("Thoma", Font.BOLD, 16));
 		textField.setText(TEXTFIELD_STRING);
 		textField.setHorizontalAlignment(JTextField.CENTER);
 		
 		//textField.setPreferredSize(new Dimension(5,50));
-		add(textField, FlowLayout.LEFT);
+		add(textField);
 	
 	
 	}
