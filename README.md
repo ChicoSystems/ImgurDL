@@ -59,6 +59,33 @@ Java HotSpot(TM) Client VM (build 25.40-b25, mixed mode, sharing)
 ```
 If Java does not respond to this command it means you'll need to [add it to your PATH](http://www.kingluddite.com/tools/how-do-i-add-java-to-my-windows-path)
 
+#### Eclipse (Linux / Windows / Macintosh)
+You can download Eclipse for your preferred operating system here:
+[Eclipse Downloads](https://eclipse.org/downloads/packages/eclipse-ide-java-developers/lunasr2)
+Pick your OS, download and install.
+
+### Installing Development Tools (Linux)
+Some of these tools are installed slightly differently (easier) when you are using a real OS.
+
+#### Git (Linux)
+You're using Linux. You probably already know how to install git. But if you're new, just do this:
+##### Debian Flavored
+```bash
+sudo apt-get install git
+```
+
+##### Red-Hat Flavored
+```bash
+yum install git
+```
+
+To verify you now have git installed run:
+```bash
+isaac@ubuntu-desktop:~$ git --version
+git version 1.9.1
+```
+
+If you have any other distribution you, again, probably already know how to install git, if it's not installed already.
 ## Running it
 
 To compile, simply
