@@ -16,17 +16,25 @@ I could have left Loadur [proprietary](http://www.gnu.org/proprietary/proprietar
 
 ### Getting started
 
-To Use the app you can download the jar here:
+To Use the app on Windows, Linux or Mac you can download the jar here:
 
 Jar download: http://sourceforge.net/projects/imgurdl/
 
+## Contributing to Loadur
 
+It's easy to contribute to loadur.
 
-## Setup
+You need a few things to be able to contribute to loadur:
+1. Git
+2. Java
+3. Eclipse
 
-You need a few things to run this:
-1. Java
-2. Eclipse
+If you already have these programs ready to use you can skip the next section.
+
+### Installing Development Tools (WINDOWS)
+Whether you have Linux or Windows it's pretty easy to install the tools you need to contribute to Loadur.
+
+#### Git
 
 ## Running it
 
