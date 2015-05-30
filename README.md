@@ -113,8 +113,15 @@ Pick your OS, download and install.
 ```bash
 git clone https://github.com/ChicoSystems/ImgurDL.git
 ```
-
 2. Import the project you just cloned into Eclipse:
+```bash
+File -> Import -> Git -> Projects From Git -> local -> Add -> Browse
+```
+3. Run The Main Loadur Class in Eclipse
+```bash
+Right Click Project Folder -> Run As -> Java Application
+```
+Loadur should now be running, go ahead and press the download button using the default URL and download some nice wallpapers. Or perhaps you'd like to put in an Imgur gallery or album URL? Try it. If something breaks you can check the code and fix it. Then send me a pull request, or a patch, as detailed in the next section.
 
 
 Clone repository and import the project into Eclipse.
