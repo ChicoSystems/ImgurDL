@@ -1,5 +1,7 @@
 ImgurDL
 =======
+Jar download: http://sourceforge.net/projects/imgurdl/
+
 Loadur (previously ImgurDL) is a [Java Swing](http://en.wikipedia.org/wiki/Swing_%28Java%29) application that allows you to easily download galleries and albums from [Imgur](http://imgur.com). Loadur, originally known as [ImgurDL](http://lmgtfy.com/?q=ImgurDL) has been downloaded and used by tens of thousands of people from all over the globe.
 
 <p align="center" alt="A mockup, not a screenshot">
@@ -25,6 +27,7 @@ Jar download: http://sourceforge.net/projects/imgurdl/
 It's easy to contribute to loadur.
 
 You need a few things to be able to contribute to loadur:
+
 1. Git
 2. Java
 3. Eclipse
@@ -34,7 +37,27 @@ If you already have these programs ready to use you can skip the next section.
 ### Installing Development Tools (WINDOWS)
 Whether you have Linux or Windows it's pretty easy to install the tools you need to contribute to Loadur.
 
-#### Git
+#### Git (Windows)
+Installing Git for windows is as easy as installing any other windows application, download it here:
+[Git](https://git-scm.com/download/win)
+To Check if Git is properly installed right click on any file in a Windows folder and you'll see Git options in the menu:
+<p align="center" alt="Git Right Click">
+  <img src="http://i.imgur.com/TjOiu4c.png">
+</p>
+If this does not work you can try using the Github for Windows app, it's not as good as the pure Windows Git app though:
+[Github App](http://i.imgur.com/TjOiu4c.png)
+
+#### Java (Windows)
+Java is also easy to download and run for Windows, get it here:
+[Java](https://java.com/en/download/)
+To verify that Java is loaded, open a Command Prompt and type:
+```bash
+C:\Users\Isaac\Desktop> java -version
+java version "1.8.0_40"
+Java(TM) SE Runtime Environment (build 1.8.0_40-b26)
+Java HotSpot(TM) Client VM (build 25.40-b25, mixed mode, sharing)
+```
+If Java does not respond to this command it means you'll need to [add it to your PATH](http://www.kingluddite.com/tools/how-do-i-add-java-to-my-windows-path)
 
 ## Running it
 
