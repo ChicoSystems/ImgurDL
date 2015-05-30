@@ -84,10 +84,37 @@ To verify you now have git installed run:
 isaac@ubuntu-desktop:~$ git --version
 git version 1.9.1
 ```
-
 If you have any other distribution you, again, probably already know how to install git, if it's not installed already.
-## Running it
 
-To compile, simply
+#### Java (Linux)
+Java is also very simple to download and run for Linux, run the following:
+```bash
+sudo apt-get install java
+```
+or
+```bash
+sudo yum install java
+```
+To verify that Java is loaded, open a Terminal and type:
+```bash
+java -version
+```
+You should get a response similar to this:
+```java version "1.7.0_79"```
+If Java does not respond to this command it means you'll need to [add it to your PATH](https://java.com/en/download/help/path.xml)
+
+#### Eclipse (Linux / Windows / Macintosh)
+You can download Eclipse for your preferred operating system here:
+[Eclipse Downloads](https://eclipse.org/downloads/packages/eclipse-ide-java-developers/lunasr2)
+Pick your OS, download and install.
+
+## Running Loadur
+1. Clone the Git repository into the folder you would like to work in:
+```bash
+git clone https://github.com/ChicoSystems/ImgurDL.git
+```
+
+2. Import the project you just cloned into Eclipse:
+
 
 Clone repository and import the project into Eclipse.
