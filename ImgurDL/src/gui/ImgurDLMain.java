@@ -15,7 +15,7 @@ import backend.ImgurGalleryDownloader;
  */
 public class ImgurDLMain extends JFrame{
 	
-	static int WIDTH_MAINCANVAS = 500;
+	static int WIDTH_MAINCANVAS = 510;
 	static int HEIGHT_MAINCANVAS = 720;
 	static String TITLE = "ImgurDL";
 	public ImgurDLGUI gui; /** THE GUI */

@@ -38,7 +38,7 @@ public class ImageQueue extends LinkedList<BufferedImage>{
 	}
 	
 	/**
-	 * Adds a picture the the queue. If more than 16 pictures
+	 * Adds a picture the the queue. If more than ARRAY_LENGTH pictures
 	 * are present it removes the first picture before adding them.
 	 * @param img The picture to add.
 	 */
@@ -47,9 +47,12 @@ public class ImageQueue extends LinkedList<BufferedImage>{
 			super.remove(super.size() - 1);
 		}
 		
-		System.out.println("Get Width " + parent.getWidth());
-		System.out.println("Get Height " + parent.getHeight());
-		System.out.println("#" + (parent.getWidth()/125) * (parent.getHeight()/125));
+		
+		System.out.println("\ngetSize: " + parent.getSize());
+		System.out.println("getBounds: " + parent.getBounds());
+		System.out.println("getWidth: " + parent.getWidth());
+		System.out.println("getHeight: " + parent.getHeight());
+		System.out.println("Number of imgs that fit current bounds: " + (parent.getWidth()/125) * (parent.getHeight()/125) + "\n");
 		super.addFirst(img);
 	}
 	
