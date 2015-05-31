@@ -9,7 +9,6 @@ import java.util.LinkedList;
  * every picture to a list. Before a picture is added to the
  * queue this list will be checked, to make sure the picture
  * has not already been downloaded.
- *
  */
 public class FileTracker {
 	public LinkedList<String> downloadedFiles ;

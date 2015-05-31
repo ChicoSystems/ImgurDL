@@ -39,9 +39,10 @@ public class ImgurDLHeader extends JPanel{
 	/**
 	 * Sets up header
 	 */
+	
 	private void setupHeader(){
-		super.setVisible(true);
 		setPreferredSize(new Dimension(500, 190));
+		super.setVisible(true);
 		setBackground(Color.red);
 		setLayout(new BorderLayout());
 		//add(BorderLayout.NORTH,logo);
