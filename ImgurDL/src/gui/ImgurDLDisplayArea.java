@@ -33,7 +33,7 @@ public class ImgurDLDisplayArea extends JPanel{
 	 * Sets up the display area.
 	 */
 	public void setupDisplayArea(){
-		setPreferredSize(new Dimension(500,500));
+		setPreferredSize(new Dimension(500, 500));
 		setBackground(Color.green);
 		parent.add(this, BorderLayout.CENTER);
 		

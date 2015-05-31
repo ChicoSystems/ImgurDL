@@ -14,8 +14,8 @@ import javax.imageio.ImageIO;
  */
 public class ImageQueue extends LinkedList<BufferedImage>{
 	
-	//static String BLANK_PIC = "http://i.imgur.com/FZXu3.png"; //normal
-	static String BLANK_PIC = "http://i.imgur.com/QmsF6.png"; //yellow
+	static String BLANK_PIC = "http://i.imgur.com/QmsF6.png"; // 125x125 gray image
+	private int ARRAY_LENGTH = 16;
 	ImgurDLDisplayArea parent; /** The Display Area. Parent of This Class. */
 	
 	/**
@@ -32,7 +32,7 @@ public class ImageQueue extends LinkedList<BufferedImage>{
 	 */
 	private void fillQueue(){
 		BufferedImage blankPic = getPic(BLANK_PIC);
-		for(int i = 0; i <= 16; i++){
+		for(int i = 0; i <= ARRAY_LENGTH; i++){
 			addPic(blankPic);
 		}
 	}
@@ -43,11 +43,14 @@ public class ImageQueue extends LinkedList<BufferedImage>{
 	 * @param img The picture to add.
 	 */
 	public void addPic(BufferedImage img){
-		if(super.size() > 16){
-			super.remove(0);
+		if(super.size() > ARRAY_LENGTH){
+			super.remove(super.size() - 1);
 		}
 		
-		super.addLast(img);
+		System.out.println("Get Width " + parent.getWidth());
+		System.out.println("Get Height " + parent.getHeight());
+		System.out.println("#" + (parent.getWidth()/125) * (parent.getHeight()/125));
+		super.addFirst(img);
 	}
 	
 	/**
