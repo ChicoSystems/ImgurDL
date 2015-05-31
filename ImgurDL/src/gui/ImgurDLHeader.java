@@ -88,6 +88,7 @@ public class ImgurDLHeader extends JPanel{
 		    paintNumDownloaded(g);
 		    paintNumTotal(g);
 		    paintPagesSearched(g);
+		    paintElapsedTime(g);
 		 
 	 }
 	 
@@ -95,14 +96,14 @@ public class ImgurDLHeader extends JPanel{
 		 System.out.println(parent.parent.parent.downloader.statsTracker.totalPagesSearched);
 		 Color c = g.getColor();
 		 	g.setColor(Color.GREEN);
-	        g.drawString("Pages Searched: " + String.valueOf(parent.parent.parent.downloader.statsTracker.totalPagesSearched), 170, 27);
+	        g.drawString("Pages Searched: " + String.valueOf(parent.parent.parent.downloader.statsTracker.totalPagesSearched), 170, 30);
 	        g.setColor(c);
 	 }
 	 
 	 private void paintNumTotal(Graphics g){
 		 Color c = g.getColor();
 		 	g.setColor(Color.GREEN);
-	        g.drawString("Total in Folder: " + String.valueOf(parent.parent.parent.downloader.statsTracker.totalInFolder), 170, 15);
+	        g.drawString("Total in Folder: " + String.valueOf(parent.parent.parent.downloader.statsTracker.totalInFolder), 170, 17);
 	        g.setColor(c);
 	 }
 	 
@@ -113,7 +114,7 @@ public class ImgurDLHeader extends JPanel{
 	 private void paintNumDownloaded(Graphics g){
 		 	Color c = g.getColor();
 		 	g.setColor(Color.GREEN);
-	        g.drawString("Downloaded: " + String.valueOf(parent.parent.parent.downloader.statsTracker.totalPicsDownloaded), 380, 15);
+	        g.drawString("Downloaded: " + String.valueOf(parent.parent.parent.downloader.statsTracker.totalPicsDownloaded), 380, 17);
 	        g.setColor(c);
 	 }
 	 
@@ -124,7 +125,7 @@ public class ImgurDLHeader extends JPanel{
 	 private void paintQueueSize(Graphics g){
 		 Color c = g.getColor();
 		 	g.setColor(Color.GREEN);
-	        g.drawString("Queue: " + String.valueOf(parent.parent.parent.downloader.queue.size()), 10, 27);
+	        g.drawString("Queue: " + String.valueOf(parent.parent.parent.downloader.queue.size()), 10, 30);
 	        g.setColor(c);
 	 }
 	 
@@ -135,7 +136,18 @@ public class ImgurDLHeader extends JPanel{
 	 private void paintKbits(Graphics g){
 			Color c = g.getColor();
 		 	g.setColor(Color.GREEN);
-	        g.drawString("Kbit/s: " + String.valueOf(parent.parent.parent.downloader.statsTracker.totalKbPerSec).substring(0,String.valueOf(parent.parent.parent.downloader.statsTracker.totalKbPerSec).length()/2 ), 10, 15);
+	        g.drawString("Kbit/s: " + String.valueOf(parent.parent.parent.downloader.statsTracker.totalKbPerSec).substring(0,String.valueOf(parent.parent.parent.downloader.statsTracker.totalKbPerSec).length()/2 ), 10, 17);
+	        g.setColor(c);
+	 }
+	 
+	 /**
+	  * Paint the current Kbits per sec to the screen
+	  * @param g The Graphics Context
+	  */
+	 private void paintElapsedTime(Graphics g){
+			Color c = g.getColor();
+		 	g.setColor(Color.GREEN);
+	        g.drawString("Run Time: " + String.valueOf((int)(parent.parent.parent.downloader.statsTracker.runTime / 1000)), 380, 30);
 	        g.setColor(c);
 	 }
 	
