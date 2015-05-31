@@ -2,6 +2,7 @@ package backend;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBuffer;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -65,6 +66,8 @@ public class PictureDownloader {
 			   BufferedImage img;
 	    	   URL u = new URL(s);
 	    	   img = ImageIO.read(u);
+	    	   DataBuffer buff = img.getRaster().getDataBuffer();
+	    	   int bitsInImg = buff.getSize() / 21 * 8; // * DataBuffer.getDataTypeSize(buff.getDataType()) / 8;
 	           String fileName = getFileName(s);
 	           String ext = getExt(s);
 	           System.out.println(fileName + "." + ext);
@@ -74,6 +77,9 @@ public class PictureDownloader {
 	           }
 	           save(img, fileName, ext);
 	           parent.parent.statsTracker.totalPicsDownloaded++;
+	           parent.parent.addBits(bitsInImg);
+	           System.out.println(img);
+	           System.out.println(bitsInImg + " " + fileName);
 	       } catch (IOException e) {
 	    	   System.err.println(e);
 	       }
@@ -89,7 +95,7 @@ public class PictureDownloader {
 	 public BufferedImage resize(BufferedImage img, int newW, int newH) {  
 	        int w = img.getWidth();  
 	        int h = img.getHeight();  
-	        BufferedImage dimg = dimg = new BufferedImage(newW, newH, img.getType());  
+	        BufferedImage dimg = new BufferedImage(newW, newH, img.getType());  
 	        Graphics2D g = dimg.createGraphics();  
 	        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);  
 	        g.drawImage(img, 0, 0, newW, newH, 0, 0, w, h, null);  

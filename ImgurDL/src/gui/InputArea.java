@@ -65,6 +65,7 @@ public class InputArea extends JPanel{
             {
             	
                 //Execute when button is pressed
+            	parent.parent.parent.parent.downloader.statsTracker.startTime = System.currentTimeMillis();
                 System.out.println("You clicked the button");
                 String gallery = textField.getText();
                 gallery = gallery.toLowerCase();

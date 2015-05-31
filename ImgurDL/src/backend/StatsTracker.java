@@ -38,7 +38,7 @@ public class StatsTracker {
 		currentbits = 0;
 		totalbits = 0; //Keeps track of total bits downloaded
 		elapsedTime = 0;
-		startTime = System.currentTimeMillis();
+		startTime = 0;
 		currentTime = System.currentTimeMillis();
 		runTime = 0;
 	}
@@ -52,7 +52,7 @@ public class StatsTracker {
 		bitsPerSec = (float) (currentbits / elapsedTime) ;
 		totalBitsPerSec = (float) (totalbits / runTime);
 		kbPerSec = bitsPerSec / 1024;
-		totalKbPerSec = totalBitsPerSec / 1024;
+		totalKbPerSec = totalBitsPerSec;
 		mbPerSec = kbPerSec / 1024;
 		totalMbPerSec = totalKbPerSec / 1024;
 		//System.out.println("KB/S: " + totalKbPerSec + " ElapsedTime: " + elapsedTime);
