@@ -30,7 +30,6 @@ public class DownloadQueueProcessor extends Thread{
 				try {
 					Thread.sleep(TIME_SLEEP_IF_EMPTY); //if DL Queue is empty, pause for half a second before trying again
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -46,7 +45,6 @@ public class DownloadQueueProcessor extends Thread{
 			try {
 				Thread.sleep(TIME_PAUSE); //Allow thread to rest some time, before checking again.
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
