@@ -14,8 +14,8 @@ import javax.imageio.ImageIO;
  */
 public class ImageQueue extends LinkedList<BufferedImage>{
 	
-	//static String BLANK_PIC = "http://i.imgur.com/FZXu3.png"; //normal
-	static String BLANK_PIC = "http://i.imgur.com/QmsF6.png"; //yellow
+	static String BLANK_PIC = "http://i.imgur.com/QmsF6.png"; // 125x125 gray image
+	private int ARRAY_LENGTH = 16;
 	ImgurDLDisplayArea parent; /** The Display Area. Parent of This Class. */
 	
 	/**
@@ -32,22 +32,28 @@ public class ImageQueue extends LinkedList<BufferedImage>{
 	 */
 	private void fillQueue(){
 		BufferedImage blankPic = getPic(BLANK_PIC);
-		for(int i = 0; i <= 16; i++){
+		for(int i = 0; i <= ARRAY_LENGTH; i++){
 			addPic(blankPic);
 		}
 	}
 	
 	/**
-	 * Adds a picture the the queue. If more than 16 pictures
+	 * Adds a picture the the queue. If more than ARRAY_LENGTH pictures
 	 * are present it removes the first picture before adding them.
 	 * @param img The picture to add.
 	 */
 	public void addPic(BufferedImage img){
-		if(super.size() > 16){
-			super.remove(0);
+		if(super.size() > ARRAY_LENGTH){
+			super.remove(super.size() - 1);
 		}
 		
-		super.addLast(img);
+		
+		System.out.println("\ngetSize: " + parent.getSize());
+		System.out.println("getBounds: " + parent.getBounds());
+		System.out.println("getWidth: " + parent.getWidth());
+		System.out.println("getHeight: " + parent.getHeight());
+		System.out.println("Number of imgs that fit current bounds: " + (parent.getWidth()/125) * (parent.getHeight()/125) + "\n");
+		super.addFirst(img);
 	}
 	
 	/**
