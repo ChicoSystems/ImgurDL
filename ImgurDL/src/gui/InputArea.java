@@ -31,7 +31,7 @@ import javax.swing.plaf.metal.MetalBorders;
  *
  */
 public class InputArea extends JPanel{
-	static String TEXTFIELD_STRING = "http://imgur.com/r/wallpaper";
+	static String TEXTFIELD_STRING = "Type Search Here";
 	ImgurDLHeader parent; /** The Header, Parent of this Class. */
 	JPanel statsPanel; /** Panel to display stats on.*/
 	JLabel panelLabel;
@@ -69,6 +69,11 @@ public class InputArea extends JPanel{
                 System.out.println("You clicked the button");
                 String gallery = textField.getText();
                 gallery = gallery.toLowerCase();
+                if(!beenPressed){
+            		parent.parent.parent.guiManager.downloadGallery(gallery);
+                    beenPressed = true;
+            	}
+                /*
                 if(gallery.endsWith("/")){ //remove last /
                 	gallery = gallery.substring(0, gallery.length()-1);
                 }
@@ -83,6 +88,7 @@ public class InputArea extends JPanel{
                         beenPressed = true;
                 	//}
                 }
+                */
             }
         });
 	}
@@ -92,6 +98,7 @@ public class InputArea extends JPanel{
 	 */
 	public void setupInputArea(){
 		this.setBackground(new Color(31, 30, 27));
+		
 	}
 	
 	public void setupStatsPanel(){
