@@ -60,7 +60,7 @@ public class ImgurGalleryDownloader extends Thread{
 	public static void main(String[] args) {
 		System.err.println("MAIN RUNNING");
 		ImgurGalleryDownloader dl = new ImgurGalleryDownloader();
-		dl.download("http://imgur.com/gallery");
+		dl.download("https://api.imgur.com/3/album/pTL2I/images");
 		dl.start();
 		//dl.download(args[0]);
 	}
@@ -124,8 +124,17 @@ public class ImgurGalleryDownloader extends Thread{
 		}
 		*/
 		try {
-			String [] foundLinks = apiGetLinks("cdee2b1e3c354ec", "https://api.imgur.com/3/album/HhKqC/images");
-
+			ArrayList<String>foundLinks = apiGetLinks("cdee2b1e3c354ec", "https://api.imgur.com/3/gallery/search?q="+gal);
+			//Enqueue the links to be downloaded
+			
+			/*for(int i = 0; i < foundLinks.size(); i++){
+				queue.enQueue(foundLinks.get(i));
+			}*/
+			
+			//for(int i = 0; i < foundLinks.length; i++){
+			//	queue.enQueue(foundLin);
+				
+			//}
 		//	getImgurContent("cdee2b1e3c354ec", "https://api.imgur.com/3/gallery/3IE5Y");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -134,7 +143,7 @@ public class ImgurGalleryDownloader extends Thread{
 		System.err.println("current page = null");
 	}
 	
-	public String[] apiGetLinks (String Client_ID, String url) throws IOException {
+	public ArrayList<String> apiGetLinks (String Client_ID, String url) throws IOException {
 
 	    // get your own Id and Secret by registering at https://api.imgur.com/oauth2/addclient
 	    //String Client_ID = "cdee2b1e3c354ec";
@@ -161,6 +170,8 @@ public class ImgurGalleryDownloader extends Thread{
 	        
 	    bin.close();
 	    System.out.println("jsonString: "+jsonString);
+	    //String [] foundLinks = new String[200];
+	    ArrayList<String> foundLinks = new ArrayList<String>();
 	    JSONParser parser = new JSONParser();
 	    try{
 	         JSONObject obj = (JSONObject) parser.parse(jsonString);
@@ -168,26 +179,50 @@ public class ImgurGalleryDownloader extends Thread{
 	         for(int i = 0; i < data.size(); i++){
 	        	 JSONObject img = (JSONObject)data.get(i);
 	        	 String link = (String) img.get("link");
+	        	 if(linkIsAlbum(link)){
+	        		 String albumID = getAlbumID(link);
+	        		 foundLinks.addAll(apiGetLinks(Client_ID, "https://api.imgur.com/3/album/"+albumID+"/images"));
+	        	 }else{
+	        		 foundLinks.add(link);
+	        		 queue.enQueue(link); //this will do the downloading.
+	        	 }
+	        	 
 	        	 System.out.println(link);
 	        	 
 	         }
-				
-
-
-	         
-	         
-	         
-	         System.out.println();
-
-	       
 	      }catch(ParseException pe){
 			
 	         System.out.println("position: " + pe.getPosition());
 	         System.out.println(pe);
 	      }
-	    return null;
+	    return foundLinks;
+	}
+
+	/**
+	 * We will have already confirmed that link is an album
+	 * before this is called. This will take everything
+	 * after the /a/ in the link and return it.
+	 * @param link
+	 * @return
+	 */
+	String getAlbumID(String link){
+		int i = link.lastIndexOf("/");
+		return link.substring(i+1);
 	}
 	
+	/**
+	 * Checks a String link to see if it is an album
+	 * it will be an album if string contains /a/
+	 * @param link
+	 * @return
+	 */
+	boolean linkIsAlbum(String link){
+		if(link.contains("/a/")){
+			return true;
+		}else{
+			return false;
+		}
+	}
 	
 	/**
 	 * Uses the api to find image links from a 
