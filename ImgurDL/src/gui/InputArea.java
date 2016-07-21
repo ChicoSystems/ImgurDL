@@ -37,7 +37,7 @@ public class InputArea extends JPanel{
 	JLabel panelLabel;
 	JTextField textField; /** The Box that user inputs Text into. */
 	DownloadButton button; /** The button you press to download. */
-	boolean beenPressed = false;
+	//boolean beenPressed = false;
 	
 	/**
 	 * Constructor
@@ -63,16 +63,25 @@ public class InputArea extends JPanel{
 			 
             public void actionPerformed(ActionEvent e)
             {
-            	
-                //Execute when button is pressed
-            	parent.parent.parent.parent.downloader.statsTracker.startTime = System.currentTimeMillis();
-                System.out.println("You clicked the button");
-                String gallery = textField.getText();
-                gallery = gallery.toLowerCase();
-                if(!beenPressed){
-            		parent.parent.parent.guiManager.downloadGallery(gallery);
-                    beenPressed = true;
+            	if(!button.isDownloading()){
+            		//We are not currently downloading, but we want to download.
+            		 //Execute when button is pressed
+                	parent.parent.parent.parent.downloader.statsTracker.startTime = System.currentTimeMillis();
+                    System.out.println("You clicked the button");
+                    String gallery = textField.getText();
+                    gallery = gallery.toLowerCase();
+                   // if(!beenPressed){
+                    button.setDownloading(true);
+                		parent.parent.parent.guiManager.downloadGallery(gallery);
+                		
+                    //    beenPressed = true;
+                	//}
+            	}else{
+            		//We are already downloading, we need to stop, and change the button.
+            		button.setDownloading(false);
+            		
             	}
+               
                 /*
                 if(gallery.endsWith("/")){ //remove last /
                 	gallery = gallery.substring(0, gallery.length()-1);

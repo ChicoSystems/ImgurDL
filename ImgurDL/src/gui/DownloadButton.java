@@ -26,7 +26,7 @@ public class DownloadButton extends JButton {
 	private Color startColor = new Color(192, 192, 192);
 	private Color endColor = new Color(82, 82, 82);
 	private Color rollOverColor = new Color(158, 223, 52);
-	private Color pressedColor = new Color(137, 198, 36);;
+	private Color pressedColor = new Color(137, 198, 36);
 	private int outerRoundRectSize = 10;
 	private int innerRoundRectSize = 8;
 	private GradientPaint GP;
@@ -201,6 +201,19 @@ public class DownloadButton extends JButton {
 	}
 
 	public void setDownloading(boolean isDownloading) {
+		if(isDownloading){
+			setText("Stop");
+			startColor = new Color(192, 192, 192);
+			endColor = new Color(82, 82, 82);
+			rollOverColor = new Color(223, 52, 61);
+			pressedColor = new Color(137, 198, 36);
+		}else{
+			startColor = new Color(192, 192, 192);
+			endColor = new Color(82, 82, 82);
+			rollOverColor = new Color(158, 223, 52);
+			setText("Download");
+			pressedColor = new Color(137, 198, 36);
+		}
 		this.isDownloading = isDownloading;
 	}
 }

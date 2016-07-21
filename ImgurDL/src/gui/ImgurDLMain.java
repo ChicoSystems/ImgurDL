@@ -17,7 +17,7 @@ public class ImgurDLMain extends JFrame{
 	
 	static int WIDTH_MAINCANVAS = 510;
 	static int HEIGHT_MAINCANVAS = 720;
-	static String TITLE = "ImgurDL";
+	static String TITLE = "Loadur";
 	public ImgurDLGUI gui; /** THE GUI */
 	public ImgurGalleryDownloader downloader; /** The Downloader */
 	public boolean isRunning;
