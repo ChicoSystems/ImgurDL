@@ -17,10 +17,10 @@ public class ImgurDLMain extends JFrame{
 	
 	static int WIDTH_MAINCANVAS = 510;
 	static int HEIGHT_MAINCANVAS = 720;
-	static String TITLE = "ImgurDL";
+	static String TITLE = "Loadur";
 	public ImgurDLGUI gui; /** THE GUI */
 	public ImgurGalleryDownloader downloader; /** The Downloader */
-	public boolean isRunning;
+	private boolean isRunning;
 
 	/**
 	 * The launcher.
@@ -59,7 +59,20 @@ public class ImgurDLMain extends JFrame{
 		 setLocation(200, 10);
 		 this.setLayout(getLayout());
 		 setVisible(true);
-		 
-		 
+		  
+	}
+	
+	public boolean getRunning(){
+		return isRunning;
+	}
+	
+	public void setRunning(boolean run){
+		System.out.println("Set Main Running");
+		downloader.setRunning(run);
+		//if(!run){
+			//downloader = new ImgurGalleryDownloader(this); //Start Image Downloader object.
+		//}
+		isRunning = run;
+		
 	}
 }

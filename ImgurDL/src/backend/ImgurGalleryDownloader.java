@@ -46,12 +46,13 @@ public class ImgurGalleryDownloader extends Thread{
 	int sindex;
 	static int QUEUE_THRESH = 40;
 	static int TIME_PAUSE = 20;
-	static int SIM_DLS = 2; //Simultaneous downloads allowed at one time.
+	static int SIM_DLS = 1; //Simultaneous downloads allowed at one time.
 	ImgurDLMain parent = null; //The Optional GUI Parent
 	public StatsTracker statsTracker;
 	public DownloadQueue queue;
 	DownloadQueueProcessor[] qProcessors;
-	boolean isRunning;
+	private boolean isRunning;
+	private boolean alreadyStarted = false;
 	String gal;
 
 	/**
@@ -61,6 +62,9 @@ public class ImgurGalleryDownloader extends Thread{
 		System.err.println("MAIN RUNNING");
 		ImgurGalleryDownloader dl = new ImgurGalleryDownloader();
 		dl.download("https://api.imgur.com/3/album/pTL2I/images");
+		if(!dl.isAlive()){
+			dl.start();
+		}
 		dl.start();
 		//dl.download(args[0]);
 	}
@@ -95,107 +99,82 @@ public class ImgurGalleryDownloader extends Thread{
 	 * @param gallery The Gallery to Download
 	 */
 	public void download(String gallery){
-		System.err.println("Download: " + gallery);
+		System.out.println("Download2: " + gallery);
 		//Navigate to the first page.
 		gal = gallery;
-		
-		
 		//while you have a good page, as long as no 404, or 500 codes occur, 
 		//and as long as we have not reached the last page of the gallery.
-		
-		
 	}
 	
 	/**
 	 * Runs in thread, allows buttons to be pressed on the gui.
 	 */
 	public void run(){
-		/*
-		String currentPage = getFirstPage(gal);
-		while(currentPage != null && isRunning){
-			String[] foundLinks = extractLinks(currentPage); //list of links found on current page.
+		if(isRunning){
+			System.err.println("findingLinks");
+			try {
+				ArrayList<String>foundLinks = apiGetLinks("cdee2b1e3c354ec", "https://api.imgur.com/3/gallery/search?q="+gal);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
-			//if(foundLinks != null){
-			queue.enQueue(foundLinks);
-			//}
-			
-			currentPage = getNextPage(currentPage);
-			
-		}
-		*/
-		try {
-			ArrayList<String>foundLinks = apiGetLinks("cdee2b1e3c354ec", "https://api.imgur.com/3/gallery/search?q="+gal);
-			//Enqueue the links to be downloaded
-			
-			/*for(int i = 0; i < foundLinks.size(); i++){
-				queue.enQueue(foundLinks.get(i));
-			}*/
-			
-			//for(int i = 0; i < foundLinks.length; i++){
-			//	queue.enQueue(foundLin);
-				
-			//}
-		//	getImgurContent("cdee2b1e3c354ec", "https://api.imgur.com/3/gallery/3IE5Y");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.err.println("current page = null");
 	}
 	
 	public ArrayList<String> apiGetLinks (String Client_ID, String url) throws IOException {
-
-	    // get your own Id and Secret by registering at https://api.imgur.com/oauth2/addclient
-	    //String Client_ID = "cdee2b1e3c354ec";
-	   // String Client_Secret = "e8e181529ccab63c31c06b6b67ba86dbc739c3ef"; 
-
-	    //String YOUR_USERNAME = "isaacassegai"; // enter your imgur username
-	    String YOUR_REQUEST_URL = url;
-
-	    URL imgURL = new URL(YOUR_REQUEST_URL);
-	    HttpURLConnection conn = (HttpURLConnection) imgURL.openConnection();
-	    conn.setRequestMethod("GET");
-	    conn.setRequestProperty("Authorization", "Client-ID " + Client_ID);
-
-	    BufferedReader bin = null;
-	    bin = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
-	//below will print out bin
-	    String jsonString = "";
-	    String line;
-	    while ((line = bin.readLine()) != null){
-	    	//System.out.println(line);
-	    	jsonString = jsonString + line;
-	    }
-	        
-	    bin.close();
-	    System.out.println("jsonString: "+jsonString);
-	    //String [] foundLinks = new String[200];
-	    ArrayList<String> foundLinks = new ArrayList<String>();
-	    JSONParser parser = new JSONParser();
-	    try{
-	         JSONObject obj = (JSONObject) parser.parse(jsonString);
-	         JSONArray data = (JSONArray) obj.get("data");
-	         for(int i = 0; i < data.size(); i++){
-	        	 JSONObject img = (JSONObject)data.get(i);
-	        	 String link = (String) img.get("link");
-	        	 if(linkIsAlbum(link)){
-	        		 String albumID = getAlbumID(link);
-	        		 foundLinks.addAll(apiGetLinks(Client_ID, "https://api.imgur.com/3/album/"+albumID+"/images"));
-	        	 }else{
-	        		 foundLinks.add(link);
-	        		 queue.enQueue(link); //this will do the downloading.
-	        	 }
-	        	 
-	        	 System.out.println(link);
-	        	 
-	         }
-	      }catch(ParseException pe){
+		ArrayList<String> foundLinks = new ArrayList<String>();
+		if(isRunning){//We only want to do this if the app is running.
 			
-	         System.out.println("position: " + pe.getPosition());
-	         System.out.println(pe);
-	      }
-	    return foundLinks;
+			 String YOUR_REQUEST_URL = url;
+
+			    URL imgURL = new URL(YOUR_REQUEST_URL);
+			    HttpURLConnection conn = (HttpURLConnection) imgURL.openConnection();
+			    conn.setRequestMethod("GET");
+			    conn.setRequestProperty("Authorization", "Client-ID " + Client_ID);
+
+			    BufferedReader bin = null;
+			    bin = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+			//below will print out bin
+			    String jsonString = "";
+			    String line;
+			    while ((line = bin.readLine()) != null){
+			    	//System.out.println(line);
+			    	jsonString = jsonString + line;
+			    }
+			        
+			    bin.close();
+			    //System.out.println("jsonString: "+jsonString);
+			    //String [] foundLinks = new String[200];
+			    
+			    JSONParser parser = new JSONParser();
+			    try{
+			         JSONObject obj = (JSONObject) parser.parse(jsonString);
+			         JSONArray data = (JSONArray) obj.get("data");
+			         for(int i = 0; i < data.size(); i++){
+			        	 JSONObject img = (JSONObject)data.get(i);
+			        	 String link = (String) img.get("link");
+			        	 if(linkIsAlbum(link)){
+			        		 String albumID = getAlbumID(link);
+			        		 foundLinks.addAll(apiGetLinks(Client_ID, "https://api.imgur.com/3/album/"+albumID+"/images"));
+			        	 }else{
+			        		 foundLinks.add(link);
+			        		 queue.enQueue(link); //this will do the downloading.
+			        	 }
+			        	 
+			        	 System.out.println(link);
+			        	 
+			         }
+			      }catch(ParseException pe){
+					
+			         System.out.println("position: " + pe.getPosition());
+			         System.out.println(pe);
+			      }
+			    
+		}
+		return foundLinks;
+	   
 	}
 
 	/**
@@ -222,93 +201,6 @@ public class ImgurGalleryDownloader extends Thread{
 		}else{
 			return false;
 		}
-	}
-	
-	/**
-	 * Uses the api to find image links from a 
-	 * gallery or a album, etc.
-	 * @param page The URL of the ALBUM/GALLERY
-	 * @return Array of url strings where pics are
-	 */
-	String [] api_getLinks(String page){
-		try{
-		String url = "https://api.imgur.com/3/account/isaacassegai";
-		URL obj = new URL(url);
-		HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
-
-		//add reuqest header
-		con.setRequestMethod("GET");
-		//con.setRequestProperty("User-Agent", "Mozilla/5.0");
-		//con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-		con.setRequestProperty("Authorization", "Client-ID cdee2b1e3c354ec");
-		
-
-		String urlParameters = "";
-		
-		// Send post request
-		con.setDoOutput(true);
-		DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-		wr.writeBytes(urlParameters);
-		wr.flush();
-		wr.close();
-
-		int responseCode = con.getResponseCode();
-		System.out.println("\nSending 'POST' request to URL : " + url);
-		System.out.println("Post parameters : " + urlParameters);
-		System.out.println("Response Code : " + responseCode);
-
-		BufferedReader in = new BufferedReader(
-		        new InputStreamReader(con.getInputStream()));
-		String inputLine;
-		StringBuffer response = new StringBuffer();
-
-		while ((inputLine = in.readLine()) != null) {
-			response.append(inputLine);
-		}
-		in.close();
-		
-		//print result
-		System.out.println(response.toString()); 
-		}catch(IOException e){
-			System.out.println(e);
-		
-		}
-		return null;
-	}
-	
-	public static String getImgurContent(String clientID, String theURL) throws Exception {
-	    URL url;
-	    url = new URL(theURL);
-	    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-
-	   // String data = URLEncoder.encode("image", "UTF-8") + "="
-	    //        + URLEncoder.encode(theURL, "UTF-8");
-
-	    conn.setDoOutput(true);
-	    conn.setDoInput(true);
-	    conn.setRequestMethod("POST");
-	    conn.setRequestProperty("Authorization", "Client-ID " + clientID);
-	    conn.setRequestMethod("POST");
-	    conn.setRequestProperty("Content-Type",
-	            "application/x-www-form-urlencoded");
-
-	    conn.connect();
-	    StringBuilder stb = new StringBuilder();
-	    OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-	    //wr.write(data);
-	    wr.flush();
-
-	    // Get the response
-	    BufferedReader rd = new BufferedReader(
-	            new InputStreamReader(conn.getInputStream()));
-	    String line;
-	    while ((line = rd.readLine()) != null) {
-	        stb.append(line).append("\n");
-	    }
-	    wr.close();
-	    rd.close();
-
-	    return stb.toString();
 	}
 	
 	/**
@@ -457,7 +349,7 @@ private String getNextPage(String currentPage){
 	
 	//return currentPage;
 		
-	}
+}
 
 	public synchronized void addBits(int b){
 		statsTracker.totalbits += b;
@@ -466,6 +358,39 @@ private String getNextPage(String currentPage){
 	
 	public void updateStats(){
 		statsTracker.update();
+	}
+	
+	public void setRunning(boolean run){
+		
+		//if isRunning is false, we want to reset the DL queue
+		if(!run){
+			//this.
+			queue = new DownloadQueue(this);
+			
+		}
+		
+		if(run && !isRunning){
+			//Initialize the qProcessors according to SIM_DLS number
+			qProcessors = new DownloadQueueProcessor[SIM_DLS];
+			for(int i = 0; i < SIM_DLS; i++){
+				qProcessors[i] = new DownloadQueueProcessor(this); //Initiaze each processor
+				qProcessors[i].start(); //start each processor
+			}
+		}
+		
+		
+		isRunning = run;
+	}
+	
+	public boolean getRunning(){
+		return isRunning;
+	}
+	
+	public void start(){
+		//if(alreadyStarted){
+			super.start();
+		//	alreadyStarted = true;
+		//}
 	}
 
 }
