@@ -25,7 +25,8 @@ public class DownloadQueueProcessor extends Thread{
 	 * The Processors main loop.
 	 */
 	public void run(){
-		while(parent.isRunning){ //make sure program is still running
+		System.out.println("DownloadQueueProcessor Running");
+		while(parent.getRunning()){ //make sure program is still running
 			while(parent.queue.isEmpty()){ 
 				try {
 					Thread.sleep(TIME_SLEEP_IF_EMPTY); //if DL Queue is empty, pause for half a second before trying again

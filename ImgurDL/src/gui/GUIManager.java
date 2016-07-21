@@ -11,6 +11,7 @@ public class GUIManager {
 	
 	ImgurDLGUI parent;	/** The GUI Parent. */
 	DownloadThread dlThread; /** The rules ran in dlThread */
+	boolean ranAlready = false;
 	
 	/**
 	 * Constructor.
@@ -23,11 +24,11 @@ public class GUIManager {
 	/**
 	 * Updates the display area with the current contents of it's queue.
 	 */
-	public void updateScreen(){
+	/*public void updateScreen(){
 		//put code here to update screen to current queue.
 		//parent.mainCanvas.displayArea.
 		
-	}
+	}*/
 	
 	/**
 	 * Adds a picture to the current display queue.
@@ -41,9 +42,10 @@ public class GUIManager {
 	public void downloadGallery(String gallery){
 		//dlThread.stop();
 		dlThread.setGallery(gallery);
-		if(!dlThread.isAlive()){
+		if(!ranAlready){
 			
 			dlThread.start();
+			ranAlready = true;
 		}
 		
 	}
@@ -55,7 +57,9 @@ public class GUIManager {
 	 */
 	private class DownloadThread extends Thread{
 		String gallery;
+		boolean ranAlready = false;
 		public DownloadThread(){
+			//alreadyStarted = false;
 		}
 		
 		/**
@@ -65,7 +69,14 @@ public class GUIManager {
 		public void setGallery(String s){
 			gallery = s;
 			parent.parent.downloader.download(s);
-			parent.parent.downloader.start();
+			
+			if(!ranAlready){
+				parent.parent.downloader.start();
+				ranAlready = true;
+			}
+			
+			
+			
 		}
 		
 		/**
@@ -73,9 +84,16 @@ public class GUIManager {
 		 */
 		public void run() {
 			// TODO Auto-generated method stub
-			parent.parent.downloader.download(gallery);
+		//	parent.parent.downloader.download(gallery);
 			//parent.parent.downloader.start();
 			
+		}
+		
+		public void start(){
+			//if(!alreadyStarted){
+				super.start();
+			//	alreadyStarted = true;
+			//}
 		}
 		
 	}

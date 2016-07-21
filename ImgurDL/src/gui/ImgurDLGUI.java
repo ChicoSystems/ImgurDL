@@ -24,11 +24,11 @@ public class ImgurDLGUI extends Thread{
 	}
 	
 	/**
-	 * Main Loop of Game.
+	 * Main Loop of GUI.
 	 */
 	public void run(){
-		while(parent.isRunning){
-			updateScreen();
+		while(parent.getRunning()){
+		//	updateScreen();
 			sleep(GUI_PAUSE_TIME);
 		}
 	}
@@ -44,9 +44,9 @@ public class ImgurDLGUI extends Thread{
 	/**
 	 * Updates the GUI Display.
 	 */
-	private void updateScreen(){
+	/*private void updateScreen(){
 		guiManager.updateScreen();
-	}
+	}*/
 	
 	/**
 	 * Causes the GUI Thread to Sleep for Given Amount of Time.
