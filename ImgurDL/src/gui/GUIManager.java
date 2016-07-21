@@ -2,6 +2,8 @@ package gui;
 
 import java.awt.image.BufferedImage;
 
+import backend.ImgurGalleryDownloader;
+
 /**
  * The Class that manages the GUI
  * @author Isaac Assegai
@@ -68,14 +70,19 @@ public class GUIManager {
 		 */
 		public void setGallery(String s){
 			gallery = s;
-			parent.parent.downloader.download(s);
+			
 			
 			if(!ranAlready){
 				parent.parent.downloader.start();
+				//parent.parent.downloader = new ImgurGalleryDownloader(parent.parent)
 				ranAlready = true;
+			}else{
+				parent.parent.downloader = new ImgurGalleryDownloader(parent.parent);
+				parent.parent.downloader.start();
+						ranAlready = true;
 			}
 			
-			
+			parent.parent.downloader.download(s);
 			
 		}
 		

@@ -68,7 +68,11 @@ public class ImgurDLMain extends JFrame{
 	
 	public void setRunning(boolean run){
 		System.out.println("Set Main Running");
-		isRunning = run;
 		downloader.setRunning(run);
+		//if(!run){
+			//downloader = new ImgurGalleryDownloader(this); //Start Image Downloader object.
+		//}
+		isRunning = run;
+		
 	}
 }
