@@ -30,6 +30,7 @@ public class DownloadButton extends JButton {
 	private int outerRoundRectSize = 10;
 	private int innerRoundRectSize = 8;
 	private GradientPaint GP;
+	private boolean isDownloading;
 	
 	/**
 	 * Constructor
@@ -43,7 +44,7 @@ public class DownloadButton extends JButton {
 		setFont(new Font("Thoma", Font.BOLD, 12));
 		setForeground(Color.WHITE);
 		setFocusable(false);
-
+		setDownloading(false);
 	}
 	
 	/**
@@ -64,11 +65,12 @@ public class DownloadButton extends JButton {
 		setFocusable(false);
 		setContentAreaFilled(false);
 		setBorderPainted(false);
+		setDownloading(false);
 
 	}
 	
 	/**
-	 * Paints teh button components.
+	 * Paints The button components.
 	 */
 		public void paintComponent(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g.create();
@@ -168,6 +170,7 @@ public class DownloadButton extends JButton {
 		frame.setSize(700, 85);
 		frame.setVisible(true);
 	}
+	
 	public JPanel getButtonsPanel(){
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE);
@@ -191,5 +194,13 @@ public class DownloadButton extends JButton {
 		panel.add(pressedButton);
 		return panel;
 	
+	}
+
+	public boolean isDownloading() {
+		return isDownloading;
+	}
+
+	public void setDownloading(boolean isDownloading) {
+		this.isDownloading = isDownloading;
 	}
 }
