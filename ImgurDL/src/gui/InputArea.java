@@ -111,7 +111,7 @@ public class InputArea extends JPanel{
 	
 	public void reportHome(String term){
 		String urlParameters  = "&term="+term;
-		parent.parent.parent.parent.apiHome("imgurdl/adduse", urlParameters);
+		parent.parent.parent.parent.apiHome("imgurdl/adduse", urlParameters, "POST");
 	}
 	
 	public void setupStatsPanel(){

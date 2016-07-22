@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -11,6 +12,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -39,7 +43,8 @@ public class MainCanvas extends JPanel{
 		setupCanvas();
 		header = new ImgurDLHeader(this);
 		displayArea = new ImgurDLDisplayArea(this);
-		setupUpdateLabel();
+		setupUpdateLabel(parent.parent.newerVersionLink, "");
+		updateLabel.setVisible(false);
 	}
 	
 	/**
@@ -52,12 +57,17 @@ public class MainCanvas extends JPanel{
 		parent.parent.add(this);
 	}
 	
-	public void setupUpdateLabel(){
-		updateLabel = new JLabel("update label", SwingConstants.CENTER);
+	public void setupUpdateLabel(String link, String text){
+		updateLabel = new JLabel(text, SwingConstants.CENTER);
 		updateLabel.setForeground(Color.RED);
 		updateLabel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                System.out.println("Yay you clicked me");
+                System.out.println("Yay you clicked me " + link);
+                if (Desktop.isDesktopSupported()) {
+                    try {
+                      Desktop.getDesktop().browse(new URI(parent.parent.newerVersionLink));
+                    } catch (IOException | URISyntaxException e1) { System.out.println(e1.getMessage());}
+                  } else { System.out.println("links not supported"); }
                 updateLabel.setVisible(false);
             }
 

@@ -10,9 +10,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.StringTokenizer;
 
 import javax.swing.JFrame;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -32,6 +34,8 @@ public class ImgurDLMain extends JFrame{
 	public ImgurDLGUI gui; /** THE GUI */
 	public ImgurGalleryDownloader downloader; /** The Downloader */
 	private boolean isRunning;
+	public String newerVersionName;
+	public String newerVersionLink = "https://sourceforge.net/projects/imgurdl/";
 
 	/**
 	 * The launcher.
@@ -52,6 +56,12 @@ public class ImgurDLMain extends JFrame{
 		gui.start(); // Start gui in new thread.
 		downloader = new ImgurGalleryDownloader(this); //Start Image Downloader object.
 		setupFrame();
+		if(isNewerVersion()){
+			gui.mainCanvas.updateLabel.setVisible(true);
+			gui.mainCanvas.setupUpdateLabel(newerVersionLink, "Version "+newerVersionName+" available. Click HERE.");
+		}else{
+			gui.mainCanvas.updateLabel.setVisible(false);
+		}
 	}
 	
 	/**
@@ -86,11 +96,47 @@ public class ImgurDLMain extends JFrame{
 		isRunning = run;	
 	}
 	
+	private boolean isNewerVersion(){
+		JSONObject obj = apiHome("imgurdl/version", "", "GET");
+		JSONArray data = (JSONArray) obj.get("imgurdlVersion");
+		JSONObject item = (JSONObject) data.get(0);
+		String newestVer = (String)item.get("ver");
+		String newestLink = (String)item.get("link");
+		System.out.println("check newest version");
+		if(newerVersionBigger(newestVer, getVersion())){
+			newerVersionName = newestVer;
+			newerVersionLink = newestLink;
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	private boolean newerVersionBigger(String newestVersion, String oldVersion){
+		StringTokenizer newestToken = new StringTokenizer(newestVersion, ".");
+		StringTokenizer oldToken = new StringTokenizer(oldVersion, ".");
+		while(newestToken.hasMoreTokens()){
+			int newest = Integer.parseInt( newestToken.nextToken());
+			int oldest = 0;
+			if(oldToken.hasMoreTokens()){
+				//compare next tokens
+				oldest = Integer.parseInt( oldToken.nextToken());
+			}else{
+				oldest = 0;
+			}
+			
+			if(newest > oldest){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public String getVersion(){
 		return "0.1.1";
 	}
 	
-	public void apiHome(String endpoint, String urlParameters){
+	public JSONObject apiHome(String endpoint, String urlParameters, String method){
 		 String YOUR_REQUEST_URL = "http://localhost:3000/api/"+endpoint;
 		// String YOUR_REQUEST_URL = "http://chicosystems.com:3000/api/imgurdl/adduse";
 		 URL imgURL;
@@ -104,7 +150,7 @@ public class ImgurDLMain extends JFrame{
 				imgURL = new URL(YOUR_REQUEST_URL);
 				 HttpURLConnection conn = (HttpURLConnection) imgURL.openConnection();
 				 conn.setDoOutput( true );   
-				 conn.setRequestMethod("POST");
+				 conn.setRequestMethod(method);
 				    //conn.setRequestProperty("time", "2002002002");
 				    //conn.setRequestProperty("term", "this is the term");
 				    //conn.setRequestProperty("os", "windows");
@@ -135,7 +181,7 @@ public class ImgurDLMain extends JFrame{
 				    try{
 				         JSONObject obj = (JSONObject) parser.parse(jsonString);
 				         System.out.println(obj.toString());
-				         
+				         return obj;
 				      }catch(ParseException pe){
 						
 				         System.out.println("position: " + pe.getPosition());
@@ -143,11 +189,13 @@ public class ImgurDLMain extends JFrame{
 				      }
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//e.printStackTrace();
+				System.out.println(e.toString());
 			//} catch (URISyntaxException e) {
 				// TODO Auto-generated catch block
 			//	e.printStackTrace();
 			}
+			return null;
 		   
 	}
 }
