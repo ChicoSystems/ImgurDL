@@ -6,12 +6,16 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 /**
  * The Main Canvas of ImgurDL, Includes a Header and Display Area.
@@ -19,7 +23,7 @@ import javax.swing.JPanel;
  *
  */
 public class MainCanvas extends JPanel{
-
+    public JLabel updateLabel;
 	public Color BACKGROUND_COLOR = new Color(18,18,17);
 	public ImgurDLGUI parent; /** The GUI parent Class. */
 	public ImgurDLHeader header; /** The Header That has logo and Input area. */
@@ -30,11 +34,12 @@ public class MainCanvas extends JPanel{
 	 */
 	public MainCanvas(ImgurDLGUI p){
 		super();
+		
 		parent = p;
 		setupCanvas();
 		header = new ImgurDLHeader(this);
 		displayArea = new ImgurDLDisplayArea(this);
-		
+		setupUpdateLabel();
 	}
 	
 	/**
@@ -45,6 +50,19 @@ public class MainCanvas extends JPanel{
 		this.setBackground(BACKGROUND_COLOR);
 		setLayout(new BorderLayout());
 		parent.parent.add(this);
+	}
+	
+	public void setupUpdateLabel(){
+		updateLabel = new JLabel("update label", SwingConstants.CENTER);
+		updateLabel.setForeground(Color.RED);
+		updateLabel.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("Yay you clicked me");
+                updateLabel.setVisible(false);
+            }
+
+        });
+		this.add(updateLabel, BorderLayout.SOUTH);
 	}
 
 	
