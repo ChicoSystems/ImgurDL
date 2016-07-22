@@ -3,6 +3,7 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -17,6 +18,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
@@ -81,7 +84,7 @@ public class InputArea extends JPanel{
                 	parent.parent.parent.parent.downloader.statsTracker.startTime = System.currentTimeMillis();
                     System.out.println("You clicked the button");
                     String gallery = textField.getText();
-                    gallery = gallery.toLowerCase();
+                    //gallery = gallery.toLowerCase();
                     button.setDownloading(true);
                 	parent.parent.parent.guiManager.downloadGallery(gallery);
                 	parent.parent.parent.parent.setRunning(true);
@@ -104,6 +107,11 @@ public class InputArea extends JPanel{
 	public void setupInputArea(){
 		this.setBackground(new Color(31, 30, 27));
 		
+	}
+	
+	public void reportHome(String term){
+		String urlParameters  = "&term="+term;
+		parent.parent.parent.parent.apiHome("imgurdl/adduse", urlParameters, "POST");
 	}
 	
 	public void setupStatsPanel(){
@@ -152,57 +160,5 @@ public class InputArea extends JPanel{
  	    return img;
 	}
 	
-	private void reportHome(String term){
-		 String YOUR_REQUEST_URL = "http://chicosystems.com:3000/api/imgurdl/adduse";
-		 URL imgURL;
-		 
-		 String os = System.getProperty("os.name");
-		    
-			try {
-				imgURL = new URL(YOUR_REQUEST_URL);
-				 HttpURLConnection conn = (HttpURLConnection) imgURL.openConnection();
-				 conn.setDoOutput( true );   
-				 conn.setRequestMethod("POST");
-				    //conn.setRequestProperty("time", "2002002002");
-				    //conn.setRequestProperty("term", "this is the term");
-				    //conn.setRequestProperty("os", "windows");
-				 String urlParameters  = "&term="+term+"&os="+os;
-				 byte[] postData       = urlParameters.getBytes( StandardCharsets.UTF_8 );
-				 int    postDataLength = postData.length;
-				 conn.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded"); 
-				 conn.setRequestProperty( "charset", "utf-8");
-				 conn.setRequestProperty( "Content-Length", Integer.toString( postDataLength ));
-				    try( DataOutputStream wr = new DataOutputStream( conn.getOutputStream())) {
-				    	   wr.write( postData );
-				    	}
-				    //conn.setRequestProperty("Authorization", "Client-ID " + Client_ID);
-
-				    BufferedReader bin = null;
-				    bin = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-
-				//below will print out bin
-				    String jsonString = "";
-				    String line;
-				    while ((line = bin.readLine()) != null){
-				    	jsonString = jsonString + line;
-				    }
-				        
-				    bin.close();
-				    
-				    JSONParser parser = new JSONParser();
-				    try{
-				         JSONObject obj = (JSONObject) parser.parse(jsonString);
-				         System.out.println(obj.toString());
-				         
-				      }catch(ParseException pe){
-						
-				         System.out.println("position: " + pe.getPosition());
-				         System.out.println(pe);
-				      }
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		   
-	}
+	
 }
