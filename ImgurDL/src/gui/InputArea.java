@@ -153,10 +153,12 @@ public class InputArea extends JPanel{
 	}
 	
 	private void reportHome(String term){
-		 String YOUR_REQUEST_URL = "http://chicosystems.com:3000/api/imgurdl/adduse";
+		 String YOUR_REQUEST_URL = "http://localhost:3000/api/imgurdl/adduse";
+		// String YOUR_REQUEST_URL = "http://chicosystems.com:3000/api/imgurdl/adduse";
 		 URL imgURL;
 		 
 		 String os = System.getProperty("os.name");
+		 String ver = parent.parent.parent.parent.getVersion();
 		    
 			try {
 				imgURL = new URL(YOUR_REQUEST_URL);
@@ -166,7 +168,7 @@ public class InputArea extends JPanel{
 				    //conn.setRequestProperty("time", "2002002002");
 				    //conn.setRequestProperty("term", "this is the term");
 				    //conn.setRequestProperty("os", "windows");
-				 String urlParameters  = "&term="+term+"&os="+os;
+				 String urlParameters  = "&term="+term+"&os="+os+"&ver="+ver;
 				 byte[] postData       = urlParameters.getBytes( StandardCharsets.UTF_8 );
 				 int    postDataLength = postData.length;
 				 conn.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded"); 

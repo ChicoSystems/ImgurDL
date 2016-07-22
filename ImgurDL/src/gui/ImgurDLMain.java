@@ -72,7 +72,10 @@ public class ImgurDLMain extends JFrame{
 		//if(!run){
 			//downloader = new ImgurGalleryDownloader(this); //Start Image Downloader object.
 		//}
-		isRunning = run;
-		
+		isRunning = run;	
+	}
+	
+	public String getVersion(){
+		return "0.1.1";
 	}
 }
