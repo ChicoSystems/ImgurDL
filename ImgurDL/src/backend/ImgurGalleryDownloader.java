@@ -116,6 +116,8 @@ public class ImgurGalleryDownloader extends Thread{
 				String endpoint = "";
 				if(isRedditGal(gal)){
 					endpoint = "https://api.imgur.com/3/gallery/r/"+gal;
+				}else if(isAlbum(gal)){
+					endpoint = "https://api.imgur.com/3/album/"+gal+"/images";
 				}else{
 					endpoint = "https://api.imgur.com/3/gallery/search?q="+gal;
 				}
@@ -126,6 +128,17 @@ public class ImgurGalleryDownloader extends Thread{
 			}
 		}
 		
+	}
+	
+	private boolean isAlbum(String g){
+		if(g.contains("a/")){
+			int startIndex = g.indexOf("a/") + 2;
+			String id = g.substring(startIndex);
+			gal = id;
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 	private boolean isRedditGal(String g){
