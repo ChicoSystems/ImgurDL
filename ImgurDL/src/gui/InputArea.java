@@ -11,8 +11,14 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -24,6 +30,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.plaf.metal.MetalBorders;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 /**
  * The input area. Includes a textbox and a button.
@@ -37,7 +48,7 @@ public class InputArea extends JPanel{
 	JLabel panelLabel;
 	JTextField textField; /** The Box that user inputs Text into. */
 	DownloadButton button; /** The button you press to download. */
-	boolean beenPressed = false;
+	//boolean beenPressed = false;
 	
 	/**
 	 * Constructor
@@ -63,32 +74,26 @@ public class InputArea extends JPanel{
 			 
             public void actionPerformed(ActionEvent e)
             {
-            	
-                //Execute when button is pressed
-            	parent.parent.parent.parent.downloader.statsTracker.startTime = System.currentTimeMillis();
-                System.out.println("You clicked the button");
-                String gallery = textField.getText();
-                gallery = gallery.toLowerCase();
-                if(!beenPressed){
-            		parent.parent.parent.guiManager.downloadGallery(gallery);
-                    beenPressed = true;
-            	}
-                /*
-                if(gallery.endsWith("/")){ //remove last /
-                	gallery = gallery.substring(0, gallery.length()-1);
-                }
-                if(!gallery.startsWith("http")){
-                	parent.parent.parent.mainCanvas.header.inputArea.textField.setText("Not a HTTP address. Try Another");
-                }else if(!gallery.startsWith("http://imgur.com/")){
-                	parent.parent.parent.mainCanvas.header.inputArea.textField.setText("Not an Imgur Gallery. Try Another");
-                }else{
+            	if(!button.isDownloading()){
+            		reportHome(textField.getText());
+            		//We are not currently downloading, but we want to download.
+            		 //Execute when button is pressed
+                	parent.parent.parent.parent.downloader.statsTracker.startTime = System.currentTimeMillis();
+                    System.out.println("You clicked the button");
+                    String gallery = textField.getText();
+                    gallery = gallery.toLowerCase();
+                    button.setDownloading(true);
+                	parent.parent.parent.guiManager.downloadGallery(gallery);
+                	parent.parent.parent.parent.setRunning(true);
                 	
-                	//if(!beenPressed){
-                		parent.parent.parent.guiManager.downloadGallery(gallery);
-                        beenPressed = true;
-                	//}
-                }
-                */
+            	}else{
+            		//We are already downloading, we need to stop, and change the button.
+            		button.setDownloading(false);
+            		parent.parent.parent.parent.setRunning(false);
+            		//parent.parent.parent.parent.downloader.queue.
+            		
+            	}
+               
             }
         });
 	}
@@ -145,5 +150,59 @@ public class InputArea extends JPanel{
 			e.printStackTrace();
 		}
  	    return img;
+	}
+	
+	private void reportHome(String term){
+		 String YOUR_REQUEST_URL = "http://chicosystems.com:3000/api/imgurdl/adduse";
+		 URL imgURL;
+		 
+		 String os = System.getProperty("os.name");
+		    
+			try {
+				imgURL = new URL(YOUR_REQUEST_URL);
+				 HttpURLConnection conn = (HttpURLConnection) imgURL.openConnection();
+				 conn.setDoOutput( true );   
+				 conn.setRequestMethod("POST");
+				    //conn.setRequestProperty("time", "2002002002");
+				    //conn.setRequestProperty("term", "this is the term");
+				    //conn.setRequestProperty("os", "windows");
+				 String urlParameters  = "&term="+term+"&os="+os;
+				 byte[] postData       = urlParameters.getBytes( StandardCharsets.UTF_8 );
+				 int    postDataLength = postData.length;
+				 conn.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded"); 
+				 conn.setRequestProperty( "charset", "utf-8");
+				 conn.setRequestProperty( "Content-Length", Integer.toString( postDataLength ));
+				    try( DataOutputStream wr = new DataOutputStream( conn.getOutputStream())) {
+				    	   wr.write( postData );
+				    	}
+				    //conn.setRequestProperty("Authorization", "Client-ID " + Client_ID);
+
+				    BufferedReader bin = null;
+				    bin = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+
+				//below will print out bin
+				    String jsonString = "";
+				    String line;
+				    while ((line = bin.readLine()) != null){
+				    	jsonString = jsonString + line;
+				    }
+				        
+				    bin.close();
+				    
+				    JSONParser parser = new JSONParser();
+				    try{
+				         JSONObject obj = (JSONObject) parser.parse(jsonString);
+				         System.out.println(obj.toString());
+				         
+				      }catch(ParseException pe){
+						
+				         System.out.println("position: " + pe.getPosition());
+				         System.out.println(pe);
+				      }
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		   
 	}
 }
