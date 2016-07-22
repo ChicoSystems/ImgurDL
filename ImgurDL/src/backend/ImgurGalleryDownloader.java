@@ -113,13 +113,44 @@ public class ImgurGalleryDownloader extends Thread{
 		if(isRunning){
 			System.err.println("findingLinks");
 			try {
-				ArrayList<String>foundLinks = apiGetLinks("cdee2b1e3c354ec", "https://api.imgur.com/3/gallery/search?q="+gal);
+				String endpoint = "";
+				if(isRedditGal(gal)){
+					endpoint = "https://api.imgur.com/3/gallery/r/"+gal;
+				}else if(isAlbum(gal)){
+					endpoint = "https://api.imgur.com/3/album/"+gal+"/images";
+				}else{
+					endpoint = "https://api.imgur.com/3/gallery/search?q="+gal;
+				}
+				ArrayList<String>foundLinks = apiGetLinks("cdee2b1e3c354ec", endpoint);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		
+	}
+	
+	private boolean isAlbum(String g){
+		if(g.contains("a/")){
+			int startIndex = g.indexOf("a/") + 2;
+			String id = g.substring(startIndex);
+			gal = id;
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	private boolean isRedditGal(String g){
+		if(g.contains("r/")){
+			//this is a reddit gallery, we edit gal, so it only contains the gallery id
+			int startIndex = g.indexOf("r/");
+			String id = g.substring(startIndex+2);
+			gal = id;
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 	public ArrayList<String> apiGetLinks (String Client_ID, String url) throws IOException {

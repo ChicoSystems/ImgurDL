@@ -84,7 +84,7 @@ public class InputArea extends JPanel{
                 	parent.parent.parent.parent.downloader.statsTracker.startTime = System.currentTimeMillis();
                     System.out.println("You clicked the button");
                     String gallery = textField.getText();
-                    gallery = gallery.toLowerCase();
+                    //gallery = gallery.toLowerCase();
                     button.setDownloading(true);
                 	parent.parent.parent.guiManager.downloadGallery(gallery);
                 	parent.parent.parent.parent.setRunning(true);
