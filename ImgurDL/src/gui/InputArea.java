@@ -213,7 +213,7 @@ public class InputArea extends JPanel{
 		
 		//textField.setPreferredSize(new Dimension(5,50));
 		add(textField);
-	
+		
 	
 	}
 	

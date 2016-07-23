@@ -50,6 +50,7 @@ public class ImgurDLHeader extends JPanel{
 		//add(BorderLayout.NORTH,logo);
 		add(inputArea, BorderLayout.SOUTH);
 		parent.add(this, BorderLayout.NORTH);
+		inputArea.textField.grabFocus();
 	}
 	
 	/**
