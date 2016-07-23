@@ -56,12 +56,24 @@ public class ImgurDLMain extends JFrame{
 		gui.start(); // Start gui in new thread.
 		downloader = new ImgurGalleryDownloader(this); //Start Image Downloader object.
 		setupFrame();
-		if(isNewerVersion()){
-			gui.mainCanvas.updateLabel.setVisible(true);
-			gui.mainCanvas.setupUpdateLabel(newerVersionLink, "Version "+newerVersionName+" available. Click HERE.");
-		}else{
-			gui.mainCanvas.updateLabel.setVisible(false);
-		}
+		checkNewerVersion();
+	}
+	
+	/**
+	 * Sends a http request to server to check the newest version
+	 * does this in a new thread to minimize startup time.
+	 */
+	private void checkNewerVersion(){
+		(new Thread() {
+			  public void run() {
+				  if(isNewerVersion()){
+						gui.mainCanvas.updateLabel.setVisible(true);
+						gui.mainCanvas.setupUpdateLabel(newerVersionLink, "Version "+newerVersionName+" available. Click HERE.");
+					}else{
+						gui.mainCanvas.updateLabel.setVisible(false);
+					}
+			  }
+			 }).start();
 	}
 	
 	/**
@@ -179,13 +191,20 @@ public class ImgurDLMain extends JFrame{
 				    
 				    JSONParser parser = new JSONParser();
 				    try{
-				         JSONObject obj = (JSONObject) parser.parse(jsonString);
-				         System.out.println(obj.toString());
-				         return obj;
+				    	if(jsonString.equals("success")){
+				    		return null;
+				    	}else{
+				    		 JSONObject obj = (JSONObject) parser.parse(jsonString);
+					         System.out.println(obj.toString());
+					         return obj;
+				    	}
+				        
 				      }catch(ParseException pe){
-						
-				         System.out.println("position: " + pe.getPosition());
-				         System.out.println(pe);
+				    	  //if(isRunning)
+				    		 // gui.mainCanvas.header.inputArea.textField.setText("No Results!");
+						//System.out.println("pe: "+pe.toString());
+				        // System.out.println("position: " + pe.getPosition());
+				         //System.out.println(pe);
 				      }
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

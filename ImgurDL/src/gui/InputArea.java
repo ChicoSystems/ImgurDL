@@ -54,8 +54,10 @@ public class InputArea extends JPanel{
 	ImgurDLHeader parent; /** The Header, Parent of this Class. */
 	JPanel statsPanel; /** Panel to display stats on.*/
 	JLabel panelLabel;
-	JTextField textField; /** The Box that user inputs Text into. */
-	DownloadButton button; /** The button you press to download. */
+	public JTextField textField; 
+
+	/** The Box that user inputs Text into. */
+	public DownloadButton button; /** The button you press to download. */
 	//boolean beenPressed = false;
 	
 	/**
@@ -118,9 +120,19 @@ public class InputArea extends JPanel{
 		
 	}
 	
+	/**
+	 * Reports to the server the button has been pressed.
+	 * @param term The term the user searched for.
+	 * We do this in a new thread to minimize wait time.
+	 */
 	public void reportHome(String term){
-		String urlParameters  = "&term="+term;
-		parent.parent.parent.parent.apiHome("imgurdl/adduse", urlParameters, "POST");
+		(new Thread() {
+			  public void run() {
+					String urlParameters  = "&term="+term;
+					parent.parent.parent.parent.apiHome("imgurdl/adduse", urlParameters, "POST");
+			  }
+			 }).start();
+	
 	}
 	
 	public void setupStatsPanel(){
@@ -220,6 +232,13 @@ public class InputArea extends JPanel{
 			e.printStackTrace();
 		}
  	    return img;
+	}
+	
+	public JTextField getTextField() {
+		return textField;
+	}
+	public void setTextField(JTextField textField) {
+		this.textField = textField;
 	}
 	
 	
