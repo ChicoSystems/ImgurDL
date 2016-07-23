@@ -125,3 +125,56 @@ Loadur should now be running, go ahead and press the download button using the d
 
 
 Clone repository and import the project into Eclipse.
+
+## Change Log
+
+#### Loadur v0.2
++ Made textField Auto Focus
++ Enter Button now initiates search.
++ Hitting the button now highlights text letting user type over it.
++ Put API calls in their own thread to reduce latency.
++ Added a taskbar icon, tested working with linux and windows.
++ Fixed background size issue.
++ Put version info in app title.
++ Updated readme with this changelog.
+
+#### Loadur v0.1.2
++ Added more info to report home.
++ Added user notification when update is available.
++ Made it so albums could be downloaded directly from link again.
+
+#### Loadur v0.1
++ Made Download button turn into stop button.
++ Added ReportHome api to track app usage.
++ Changed from using direct links to search feature.
+
+#### Loadur v0.0.5
++ Resized display area.
++ Update Readme with lots of info
++ Added Licence to Project
++ Reworked Stats Tracker
++ Changed from web spider to Imgur api client
+
+
+#### Loadur v0.0.4
++ Imgur changed their html again. Updated some spider delimiters.
++ Changed the logo URL to something that can be monitored.
++ Moved stats to the top of app.
+
+#### Loadur v0.0.3
++ Program Works again.
++ Fixed bug where pictures download multiple time.
++ Now Pictures already in directory don't get downloaded again.
++ Based on pictures name.extention.
++ Added Stats system, Displaying Kbits, Queue, Downloaded, and Folder
++ Updated input system. It's a bit more robust now.
+
+#### Loadur v0.0.2
++ Update default download page
++ Added file checking to make sure duplicates don't get saved.
++ Added stats system monitoring.
+
+
+#### Loadur v0.0.1
++ Just a Basic App Designed to Download Imgur Galleries
++ Created Frontend to show user pics as they are downloading.

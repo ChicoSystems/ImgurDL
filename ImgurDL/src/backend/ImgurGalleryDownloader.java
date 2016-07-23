@@ -142,6 +142,7 @@ public class ImgurGalleryDownloader extends Thread{
 	}
 	
 	private boolean isRedditGal(String g){
+		System.out.println("gal: "+g);
 		if(g.contains("r/")){
 			//this is a reddit gallery, we edit gal, so it only contains the gallery id
 			int startIndex = g.indexOf("r/");
@@ -183,6 +184,12 @@ public class ImgurGalleryDownloader extends Thread{
 			    try{
 			         JSONObject obj = (JSONObject) parser.parse(jsonString);
 			         JSONArray data = (JSONArray) obj.get("data");
+			         if(data.isEmpty()){
+			        	 parent.gui.mainCanvas.header.inputArea.button.doClick(20);
+			        	 parent.gui.mainCanvas.header.inputArea.textField.setText("No Results Found!");
+			        	 parent.gui.mainCanvas.header.inputArea.textField.selectAll();
+			         }
+			         System.out.println(jsonString);
 			         for(int i = 0; i < data.size(); i++){
 			        	 JSONObject img = (JSONObject)data.get(i);
 			        	 String link = (String) img.get("link");
@@ -194,12 +201,14 @@ public class ImgurGalleryDownloader extends Thread{
 			        		 queue.enQueue(link); //this will do the downloading.
 			        	 }
 			        	 
-			        	 System.out.println(link);
+			        	//System.out.println(link);
 			        	 
 			         }
 			      }catch(ParseException pe){
-					
-			         System.out.println("position: " + pe.getPosition());
+					parent.gui.mainCanvas.header.inputArea.textField.setText("No Images Found");
+					//parent.gui.mainCanvas.header.inputArea.getTextField().updateUI();
+			        System.out.println("setTextHERE");
+					System.out.println("position: " + pe.getPosition());
 			         System.out.println(pe);
 			      }
 			    

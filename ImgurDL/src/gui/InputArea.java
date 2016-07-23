@@ -11,6 +11,10 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -31,6 +35,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.plaf.metal.MetalBorders;
 
@@ -49,8 +54,10 @@ public class InputArea extends JPanel{
 	ImgurDLHeader parent; /** The Header, Parent of this Class. */
 	JPanel statsPanel; /** Panel to display stats on.*/
 	JLabel panelLabel;
-	JTextField textField; /** The Box that user inputs Text into. */
-	DownloadButton button; /** The button you press to download. */
+	public JTextField textField; 
+
+	/** The Box that user inputs Text into. */
+	public DownloadButton button; /** The button you press to download. */
 	//boolean beenPressed = false;
 	
 	/**
@@ -73,6 +80,7 @@ public class InputArea extends JPanel{
 		button = new DownloadButton("Download");
 		add(button);
 
+		parent.parent.parent.parent.getRootPane().setDefaultButton(button);
 		button.addActionListener(new ActionListener() {
 			 
             public void actionPerformed(ActionEvent e)
@@ -88,11 +96,14 @@ public class InputArea extends JPanel{
                     button.setDownloading(true);
                 	parent.parent.parent.guiManager.downloadGallery(gallery);
                 	parent.parent.parent.parent.setRunning(true);
+                	textField.transferFocusBackward();
+                	textField.grabFocus();
                 	
             	}else{
             		//We are already downloading, we need to stop, and change the button.
             		button.setDownloading(false);
             		parent.parent.parent.parent.setRunning(false);
+            		textField.grabFocus();
             		//parent.parent.parent.parent.downloader.queue.
             		
             	}
@@ -109,9 +120,19 @@ public class InputArea extends JPanel{
 		
 	}
 	
+	/**
+	 * Reports to the server the button has been pressed.
+	 * @param term The term the user searched for.
+	 * We do this in a new thread to minimize wait time.
+	 */
 	public void reportHome(String term){
-		String urlParameters  = "&term="+term;
-		parent.parent.parent.parent.apiHome("imgurdl/adduse", urlParameters, "POST");
+		(new Thread() {
+			  public void run() {
+					String urlParameters  = "&term="+term;
+					parent.parent.parent.parent.apiHome("imgurdl/adduse", urlParameters, "POST");
+			  }
+			 }).start();
+	
 	}
 	
 	public void setupStatsPanel(){
@@ -136,10 +157,63 @@ public class InputArea extends JPanel{
 		textField.setFont(new Font("Thoma", Font.BOLD, 16));
 		textField.setText(TEXTFIELD_STRING);
 		textField.setHorizontalAlignment(JTextField.CENTER);
+		//textField.setToolTipText("Tool tip for text field");
+		
+		//when user presses enter in textfield we want dl button pressed
+		/*textField.addKeyListener(new KeyListener(){
+
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				button.press
+				
+			}
+
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});*/
+		
+		
+		//When textfield is focused we wan't it to select the whole thing.
+		textField.addFocusListener(new FocusListener() {
+		      public void focusGained(FocusEvent e) {
+		        displayMessage("Focus gained", e);
+		        SwingUtilities.invokeLater(new Runnable() {
+		            @Override
+		            public void run() {
+		                textField.selectAll();
+		            }
+		        });
+		      }
+
+		      public void focusLost(FocusEvent e) {
+		        displayMessage("Focus lost", e);
+		      }
+
+		      void displayMessage(String prefix, FocusEvent e) {
+		        System.out.println(prefix
+		            + (e.isTemporary() ? " (temporary):" : ":")
+		            + e.getComponent().getClass().getName()
+		            + "; Opposite component: "
+		            + (e.getOppositeComponent() != null ? e.getOppositeComponent().getClass().getName()
+		                : "null"));
+		      }
+
+		    });
 		
 		//textField.setPreferredSize(new Dimension(5,50));
 		add(textField);
-	
+		
 	
 	}
 	
@@ -158,6 +232,13 @@ public class InputArea extends JPanel{
 			e.printStackTrace();
 		}
  	    return img;
+	}
+	
+	public JTextField getTextField() {
+		return textField;
+	}
+	public void setTextField(JTextField textField) {
+		this.textField = textField;
 	}
 	
 	

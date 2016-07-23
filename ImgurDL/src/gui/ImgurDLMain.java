@@ -1,6 +1,9 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
@@ -30,7 +33,7 @@ public class ImgurDLMain extends JFrame{
 	
 	static int WIDTH_MAINCANVAS = 510;
 	static int HEIGHT_MAINCANVAS = 720;
-	static String TITLE = "Loadur";
+	public static String TITLE = "";
 	public ImgurDLGUI gui; /** THE GUI */
 	public ImgurGalleryDownloader downloader; /** The Downloader */
 	private boolean isRunning;
@@ -42,6 +45,7 @@ public class ImgurDLMain extends JFrame{
 	 */
 	public static void main(String[] args) {
 		System.err.println("MAIN RUNNING");
+		TITLE = "Loadur v"+getVersion();
 		new ImgurDLMain();
 		
 	}
@@ -51,23 +55,47 @@ public class ImgurDLMain extends JFrame{
 	 */
 	public ImgurDLMain(){
 		super(TITLE);
+		
+		setupFrame();
 		isRunning = true;
 		gui = new ImgurDLGUI(this); //create gui.
 		gui.start(); // Start gui in new thread.
+		
 		downloader = new ImgurGalleryDownloader(this); //Start Image Downloader object.
 		setupFrame();
-		if(isNewerVersion()){
-			gui.mainCanvas.updateLabel.setVisible(true);
-			gui.mainCanvas.setupUpdateLabel(newerVersionLink, "Version "+newerVersionName+" available. Click HERE.");
-		}else{
-			gui.mainCanvas.updateLabel.setVisible(false);
-		}
+		checkNewerVersion();
+	}
+	
+	
+	
+	/**
+	 * Sends a http request to server to check the newest version
+	 * does this in a new thread to minimize startup time.
+	 */
+	private void checkNewerVersion(){
+		(new Thread() {
+			  public void run() {
+				  if(isNewerVersion()){
+						gui.mainCanvas.updateLabel.setVisible(true);
+						gui.mainCanvas.setupUpdateLabel(newerVersionLink, "Version "+newerVersionName+" available. Click HERE.");
+					gui.mainCanvas.updateUI();
+					
+				  }else{
+						gui.mainCanvas.updateLabel.setVisible(false);
+					}
+			  }
+			 }).start();
+
 	}
 	
 	/**
 	 * Sets up the frame that the mainCanvas will be inserted in.
 	 */
 	public void setupFrame(){
+		
+		Image iconImage = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("image/icon.png"));
+		this.setIconImage(iconImage);
+		this.setBackground(new Color(18,18,17));
 		addWindowListener(new WindowAdapter(){
             public void windowClosing(WindowEvent e) {
            	 isRunning = false;
@@ -80,6 +108,7 @@ public class ImgurDLMain extends JFrame{
 		 setLocation(200, 10);
 		 this.setLayout(getLayout());
 		 setVisible(true);
+		
 		  
 	}
 	
@@ -98,6 +127,7 @@ public class ImgurDLMain extends JFrame{
 	
 	private boolean isNewerVersion(){
 		JSONObject obj = apiHome("imgurdl/version", "", "GET");
+		if(obj == null)return false;
 		JSONArray data = (JSONArray) obj.get("imgurdlVersion");
 		JSONObject item = (JSONObject) data.get(0);
 		String newestVer = (String)item.get("ver");
@@ -132,8 +162,8 @@ public class ImgurDLMain extends JFrame{
 		return false;
 	}
 	
-	public String getVersion(){
-		return "0.1.2";
+	public static String getVersion(){
+		return "0.2";
 	}
 	
 	public JSONObject apiHome(String endpoint, String urlParameters, String method){
@@ -179,13 +209,20 @@ public class ImgurDLMain extends JFrame{
 				    
 				    JSONParser parser = new JSONParser();
 				    try{
-				         JSONObject obj = (JSONObject) parser.parse(jsonString);
-				         System.out.println(obj.toString());
-				         return obj;
+				    	if(jsonString.equals("success")){
+				    		return null;
+				    	}else{
+				    		 JSONObject obj = (JSONObject) parser.parse(jsonString);
+					         System.out.println(obj.toString());
+					         return obj;
+				    	}
+				        
 				      }catch(ParseException pe){
-						
-				         System.out.println("position: " + pe.getPosition());
-				         System.out.println(pe);
+				    	  //if(isRunning)
+				    		 // gui.mainCanvas.header.inputArea.textField.setText("No Results!");
+						//System.out.println("pe: "+pe.toString());
+				        // System.out.println("position: " + pe.getPosition());
+				         //System.out.println(pe);
 				      }
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
