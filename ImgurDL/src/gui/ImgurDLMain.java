@@ -87,7 +87,7 @@ public class ImgurDLMain extends JFrame{
 		 //Image image = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("i.png"));
 		 //this.setIconImage(image);
 		 this.setIconImage(
-				 Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("icon.png"))
+				 Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("image/icon.png"))
 				 );
 		  
 	}
