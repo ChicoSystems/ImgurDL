@@ -1,6 +1,8 @@
 package gui;
 
 import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
@@ -51,11 +53,13 @@ public class ImgurDLMain extends JFrame{
 	 */
 	public ImgurDLMain(){
 		super(TITLE);
+		setupFrame();
 		isRunning = true;
 		gui = new ImgurDLGUI(this); //create gui.
 		gui.start(); // Start gui in new thread.
+		
 		downloader = new ImgurGalleryDownloader(this); //Start Image Downloader object.
-		setupFrame();
+		
 		if(isNewerVersion()){
 			gui.mainCanvas.updateLabel.setVisible(true);
 			gui.mainCanvas.setupUpdateLabel(newerVersionLink, "Version "+newerVersionName+" available. Click HERE.");
@@ -80,6 +84,11 @@ public class ImgurDLMain extends JFrame{
 		 setLocation(200, 10);
 		 this.setLayout(getLayout());
 		 setVisible(true);
+		 //Image image = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("i.png"));
+		 //this.setIconImage(image);
+		 this.setIconImage(
+				 Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("icon.png"))
+				 );
 		  
 	}
 	
@@ -98,6 +107,7 @@ public class ImgurDLMain extends JFrame{
 	
 	private boolean isNewerVersion(){
 		JSONObject obj = apiHome("imgurdl/version", "", "GET");
+		if(obj == null)return false;
 		JSONArray data = (JSONArray) obj.get("imgurdlVersion");
 		JSONObject item = (JSONObject) data.get(0);
 		String newestVer = (String)item.get("ver");
