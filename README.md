@@ -128,6 +128,16 @@ Clone repository and import the project into Eclipse.
 
 ## Change Log
 
+#### Loadur v0.2
++ Made textField Auto Focus
++ Enter Button now initiates search.
++ Hitting the button now highlights text letting user type over it.
++ Put API calls in their own thread to reduce latency.
++ Added a taskbar icon, tested working with linux and windows.
++ Fixed background size issue.
++ Put version info in app title.
++ Updated readme with this changelog.
+
 #### Loadur v0.1.2
 + Added more info to report home.
 + Added user notification when update is available.

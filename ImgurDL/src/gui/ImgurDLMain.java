@@ -163,7 +163,7 @@ public class ImgurDLMain extends JFrame{
 	}
 	
 	public static String getVersion(){
-		return "0.1.2";
+		return "0.2";
 	}
 	
 	public JSONObject apiHome(String endpoint, String urlParameters, String method){
