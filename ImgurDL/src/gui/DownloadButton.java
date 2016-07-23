@@ -43,7 +43,7 @@ public class DownloadButton extends JButton {
 		setBorderPainted(false);
 		setFont(new Font("Thoma", Font.BOLD, 12));
 		setForeground(Color.WHITE);
-		setFocusable(false);
+		//setFocusable(false);
 		setDownloading(false);
 	}
 	
@@ -62,7 +62,7 @@ public class DownloadButton extends JButton {
 		this.rollOverColor = rollOverColor;
 		this.pressedColor = pressedColor;
 		setForeground(Color.WHITE);
-		setFocusable(false);
+		//setFocusable(false);
 		setContentAreaFilled(false);
 		setBorderPainted(false);
 		setDownloading(false);
