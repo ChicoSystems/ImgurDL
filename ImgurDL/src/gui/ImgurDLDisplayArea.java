@@ -67,7 +67,8 @@ public class ImgurDLDisplayArea extends JPanel{
 			for(int n = 0; n <4; n++){
 				int j = convertBase4(i, n);
 				    BufferedImage img = imageQueue.get(j);
-					g.drawImage(img, n*img.getWidth(), i*img.getHeight(), null);
+				    if(img != null)//img will be null if we are not online.
+				    	g.drawImage(img, n*img.getWidth(), i*img.getHeight(), null);
 			}
 			
 				

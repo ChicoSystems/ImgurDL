@@ -1,6 +1,9 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
@@ -51,9 +54,12 @@ public class ImgurDLMain extends JFrame{
 	 */
 	public ImgurDLMain(){
 		super(TITLE);
+		
+		setupFrame();
 		isRunning = true;
 		gui = new ImgurDLGUI(this); //create gui.
 		gui.start(); // Start gui in new thread.
+		
 		downloader = new ImgurGalleryDownloader(this); //Start Image Downloader object.
 		setupFrame();
 		checkNewerVersion();
@@ -74,12 +80,17 @@ public class ImgurDLMain extends JFrame{
 					}
 			  }
 			 }).start();
+
 	}
 	
 	/**
 	 * Sets up the frame that the mainCanvas will be inserted in.
 	 */
 	public void setupFrame(){
+		
+		Image iconImage = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("image/icon.png"));
+		this.setIconImage(iconImage);
+		this.setBackground(new Color(18,18,17));
 		addWindowListener(new WindowAdapter(){
             public void windowClosing(WindowEvent e) {
            	 isRunning = false;
@@ -92,6 +103,7 @@ public class ImgurDLMain extends JFrame{
 		 setLocation(200, 10);
 		 this.setLayout(getLayout());
 		 setVisible(true);
+		
 		  
 	}
 	
@@ -110,6 +122,7 @@ public class ImgurDLMain extends JFrame{
 	
 	private boolean isNewerVersion(){
 		JSONObject obj = apiHome("imgurdl/version", "", "GET");
+		if(obj == null)return false;
 		JSONArray data = (JSONArray) obj.get("imgurdlVersion");
 		JSONObject item = (JSONObject) data.get(0);
 		String newestVer = (String)item.get("ver");

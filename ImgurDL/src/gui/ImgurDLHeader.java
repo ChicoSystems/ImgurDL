@@ -77,7 +77,8 @@ public class ImgurDLHeader extends JPanel{
 		g.setColor(new Color(36, 35, 33));
 		g.fillRect(0, 0, getWidth(), getHeight());
         g.drawImage(logo, 0, -1, null); // see javadoc for more info on the parameters
-        paintStats(g);
+        if(parent.parent.parent.downloader != null)
+        	paintStats(g);
     }
 	
 	 /**
@@ -138,7 +139,8 @@ public class ImgurDLHeader extends JPanel{
 	 private void paintKbits(Graphics g){
 			Color c = g.getColor();
 		 	g.setColor(Color.GREEN);
-	        g.drawString("Kbit/s: " + String.valueOf(parent.parent.parent.downloader.statsTracker.totalKbPerSec).substring(0,String.valueOf(parent.parent.parent.downloader.statsTracker.totalKbPerSec).length()/2 ), 10, 17);
+		 	if(parent.parent.parent.downloader != null)
+		 		g.drawString("Kbit/s: " + String.valueOf(parent.parent.parent.downloader.statsTracker.totalKbPerSec).substring(0,String.valueOf(parent.parent.parent.downloader.statsTracker.totalKbPerSec).length()/2 ), 10, 17);
 	        g.setColor(c);
 	 }
 	 
