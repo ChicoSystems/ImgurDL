@@ -33,7 +33,7 @@ public class ImgurDLMain extends JFrame{
 	
 	static int WIDTH_MAINCANVAS = 510;
 	static int HEIGHT_MAINCANVAS = 720;
-	static String TITLE = "Loadur";
+	public static String TITLE = "";
 	public ImgurDLGUI gui; /** THE GUI */
 	public ImgurGalleryDownloader downloader; /** The Downloader */
 	private boolean isRunning;
@@ -45,6 +45,7 @@ public class ImgurDLMain extends JFrame{
 	 */
 	public static void main(String[] args) {
 		System.err.println("MAIN RUNNING");
+		TITLE = "Loadur v"+getVersion();
 		new ImgurDLMain();
 		
 	}
@@ -65,6 +66,8 @@ public class ImgurDLMain extends JFrame{
 		checkNewerVersion();
 	}
 	
+	
+	
 	/**
 	 * Sends a http request to server to check the newest version
 	 * does this in a new thread to minimize startup time.
@@ -75,7 +78,9 @@ public class ImgurDLMain extends JFrame{
 				  if(isNewerVersion()){
 						gui.mainCanvas.updateLabel.setVisible(true);
 						gui.mainCanvas.setupUpdateLabel(newerVersionLink, "Version "+newerVersionName+" available. Click HERE.");
-					}else{
+					gui.mainCanvas.updateUI();
+					
+				  }else{
 						gui.mainCanvas.updateLabel.setVisible(false);
 					}
 			  }
@@ -157,7 +162,7 @@ public class ImgurDLMain extends JFrame{
 		return false;
 	}
 	
-	public String getVersion(){
+	public static String getVersion(){
 		return "0.1.2";
 	}
 	
