@@ -53,6 +53,7 @@ public class ImgurDLMain extends JFrame{
 	 */
 	public ImgurDLMain(){
 		super(TITLE);
+		
 		setupFrame();
 		isRunning = true;
 		gui = new ImgurDLGUI(this); //create gui.
@@ -72,6 +73,10 @@ public class ImgurDLMain extends JFrame{
 	 * Sets up the frame that the mainCanvas will be inserted in.
 	 */
 	public void setupFrame(){
+		
+		Image iconImage = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("image/icon.png"));
+		this.setIconImage(iconImage);
+		
 		addWindowListener(new WindowAdapter(){
             public void windowClosing(WindowEvent e) {
            	 isRunning = false;
@@ -84,11 +89,7 @@ public class ImgurDLMain extends JFrame{
 		 setLocation(200, 10);
 		 this.setLayout(getLayout());
 		 setVisible(true);
-		 //Image image = Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("i.png"));
-		 //this.setIconImage(image);
-		 this.setIconImage(
-				 Toolkit.getDefaultToolkit().getImage(getClass().getClassLoader().getResource("image/icon.png"))
-				 );
+		
 		  
 	}
 	
