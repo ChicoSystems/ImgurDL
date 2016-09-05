@@ -39,6 +39,7 @@ public class ImgurDLMain extends JFrame{
 	private boolean isRunning;
 	public String newerVersionName;
 	public String newerVersionLink = "https://sourceforge.net/projects/imgurdl/";
+	private Menu menu;
 
 	/**
 	 * The launcher.
@@ -56,8 +57,11 @@ public class ImgurDLMain extends JFrame{
 	public ImgurDLMain(){
 		super(TITLE);
 		
-		setupFrame();
+		//setupFrame();
 		isRunning = true;
+		menu = new Menu(); //instantiate the menu
+		this.setJMenuBar(menu);
+		
 		gui = new ImgurDLGUI(this); //create gui.
 		gui.start(); // Start gui in new thread.
 		
