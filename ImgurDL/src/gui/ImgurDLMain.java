@@ -74,7 +74,6 @@ public class ImgurDLMain extends JFrame{
 		
 		//setup file chooser
 		chooser = new DirectoryChooser(this);
-		chooser.setVisible(true);
 		
 		checkNewerVersion();
 	}

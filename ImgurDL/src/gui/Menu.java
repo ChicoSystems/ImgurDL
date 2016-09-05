@@ -83,8 +83,10 @@ public class Menu extends JMenuBar implements MouseListener{
 	public void mouseReleased(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		System.out.println("SetDLDirectory Menu Item Selected");
-		parent.chooser.setPreferredSize(parent.getPreferredSize());
-		//parent.chooser.setVisible(!parent.chooser.isVisible());
+		parent.chooser.setSize(parent.getSize().width, parent.getSize().height/2);
+		parent.chooser.setLocation(parent.getLocation().x, parent.getHeight()/4);
+		parent.chooser.setVisible(!parent.chooser.isVisible());
+	
 		menuItem.setBackground(bgColor);
 		
 	}
