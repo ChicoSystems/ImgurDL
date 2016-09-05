@@ -6,7 +6,9 @@ import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 
+import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -85,8 +87,16 @@ public class Menu extends JMenuBar implements MouseListener{
 		System.out.println("SetDLDirectory Menu Item Selected");
 		parent.chooser.setSize(parent.getSize().width, parent.getSize().height/2);
 		parent.chooser.setLocation(parent.getLocation().x, parent.getHeight()/4);
-		parent.chooser.setVisible(!parent.chooser.isVisible());
-	
+		//parent.chooser.setVisible(!parent.chooser.isVisible());
+		//parent.chooser.jFileChooser.getFile
+		//System.out.println(parent.chooser.jFileChooser.showDialog(parent.chooser, "Choose"));
+		
+		int returnVal = parent.chooser.jFileChooser.showSaveDialog(this);
+		if(returnVal == JFileChooser.APPROVE_OPTION) {
+		    File yourFolder = parent.chooser.jFileChooser.getSelectedFile();
+		    System.out.println("directory choosen: " + yourFolder);
+		    //set new dl folder here dads talking to me
+		}
 		menuItem.setBackground(bgColor);
 		
 	}

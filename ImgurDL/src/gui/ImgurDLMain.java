@@ -39,7 +39,7 @@ public class ImgurDLMain extends JFrame{
 	private boolean isRunning;
 	public String newerVersionName;
 	public String newerVersionLink = "https://sourceforge.net/projects/imgurdl/";
-	private Menu menu;
+	public Menu menu;
 	
 	public DirectoryChooser chooser;
 
