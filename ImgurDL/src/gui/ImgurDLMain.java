@@ -39,6 +39,10 @@ public class ImgurDLMain extends JFrame{
 	private boolean isRunning;
 	public String newerVersionName;
 	public String newerVersionLink = "https://sourceforge.net/projects/imgurdl/";
+	public Menu menu;
+	public String directoryName = "";
+	
+	public DirectoryChooser chooser;
 
 	/**
 	 * The launcher.
@@ -56,13 +60,24 @@ public class ImgurDLMain extends JFrame{
 	public ImgurDLMain(){
 		super(TITLE);
 		
-		setupFrame();
+		//setupFrame();
 		isRunning = true;
+		menu = new Menu(this); //instantiate the menu
+		this.setJMenuBar(menu);
+		
+	
+		
 		gui = new ImgurDLGUI(this); //create gui.
 		gui.start(); // Start gui in new thread.
 		
 		downloader = new ImgurGalleryDownloader(this); //Start Image Downloader object.
 		setupFrame();
+		
+		directoryName = System.getProperty("user.dir");
+		System.out.println("using directory: " + directoryName);
+		//setup file chooser
+		chooser = new DirectoryChooser(this);
+		
 		checkNewerVersion();
 	}
 	
