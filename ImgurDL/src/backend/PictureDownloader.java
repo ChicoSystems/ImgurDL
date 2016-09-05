@@ -144,7 +144,7 @@ public class PictureDownloader {
 	  * @param ext The Extention of the Image.
 	  */
 	 private void save(BufferedImage image, String fileName, String ext) {
-	        File file = new File(fileName + "." + ext);
+	        File file = new File(parent.parent.parent.directoryName + "/" + fileName + "." + ext);
 	        try {
 	        	ByteArrayOutputStream tmp = new ByteArrayOutputStream();
 	            ImageIO.write(image, ext, file);  // ignore returned boolean

@@ -128,6 +128,10 @@ Clone repository and import the project into Eclipse.
 
 ## Change Log
 
+#### Loadur NEXT
++ Added Menu
++ Added Directory Chooser - User Now can choose another directory to download to.
+
 #### Loadur v0.2
 + Made textField Auto Focus
 + Enter Button now initiates search.
