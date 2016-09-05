@@ -95,6 +95,7 @@ public class Menu extends JMenuBar implements MouseListener{
 		if(returnVal == JFileChooser.APPROVE_OPTION) {
 		    File yourFolder = parent.chooser.jFileChooser.getSelectedFile();
 		    System.out.println("directory choosen: " + yourFolder);
+		    parent.directoryName = yourFolder.toString();
 		    //set new dl folder here dads talking to me
 		}
 		menuItem.setBackground(bgColor);

@@ -40,6 +40,7 @@ public class ImgurDLMain extends JFrame{
 	public String newerVersionName;
 	public String newerVersionLink = "https://sourceforge.net/projects/imgurdl/";
 	public Menu menu;
+	public String directoryName = "";
 	
 	public DirectoryChooser chooser;
 
@@ -72,6 +73,8 @@ public class ImgurDLMain extends JFrame{
 		downloader = new ImgurGalleryDownloader(this); //Start Image Downloader object.
 		setupFrame();
 		
+		directoryName = System.getProperty("user.dir");
+		System.out.println("using directory: " + directoryName);
 		//setup file chooser
 		chooser = new DirectoryChooser(this);
 		
