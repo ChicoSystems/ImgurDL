@@ -10,6 +10,7 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -26,6 +27,8 @@ public class ImgurDLHeader extends JPanel{
 	public MainCanvas parent; 	/** The MainCanvas of GUI. Parent of me. */
 	public BufferedImage logo; 			/** The logo of ImgurDL. */
 	public InputArea inputArea; /** The input area of ImgurDL. */
+	
+
 	
 	/**
 	 * Constructor
