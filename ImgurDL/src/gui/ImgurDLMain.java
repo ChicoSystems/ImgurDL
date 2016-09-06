@@ -33,7 +33,7 @@ public class ImgurDLMain extends JFrame{
 	
 	static int WIDTH_MAINCANVAS = 510;
 	static int HEIGHT_MAINCANVAS = 720;
-	public static String TITLE = "";
+	public static String TITLE = "Loadur";
 	public ImgurDLGUI gui; /** THE GUI */
 	public ImgurGalleryDownloader downloader; /** The Downloader */
 	private boolean isRunning;
@@ -77,6 +77,7 @@ public class ImgurDLMain extends JFrame{
 		System.out.println("using directory: " + directoryName);
 		//setup file chooser
 		chooser = new DirectoryChooser(this);
+		menu.setVisible(true);
 		
 		checkNewerVersion();
 	}
@@ -91,12 +92,16 @@ public class ImgurDLMain extends JFrame{
 		(new Thread() {
 			  public void run() {
 				  if(isNewerVersion()){
-						gui.mainCanvas.updateLabel.setVisible(true);
-						gui.mainCanvas.setupUpdateLabel(newerVersionLink, "Version "+newerVersionName+" available. Click HERE.");
-					gui.mainCanvas.updateUI();
+						//gui.mainCanvas.updateLabel.setVisible(true);
+						//gui.mainCanvas.setupUpdateLabel(newerVersionLink, "Version "+newerVersionName+" available. Click HERE.");
+					//gui.mainCanvas.updateUI();
+					  menu.updateItem.setText("Version "+newerVersionName+" available. Click HERE.");
+					  menu.updateItem.setVisible(true);
+					menu.setVisible(true);
 					
 				  }else{
-						gui.mainCanvas.updateLabel.setVisible(false);
+					  menu.updateItem.setVisible(false);
+						//gui.mainCanvas.updateLabel.setVisible(false);
 					}
 			  }
 			 }).start();
