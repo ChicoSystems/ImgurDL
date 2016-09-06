@@ -107,6 +107,8 @@ public class Menu extends JMenuBar implements MouseListener{
                 } catch (IOException | URISyntaxException e1) { System.out.println(e1.getMessage());}
               } else { System.out.println("links not supported"); }
 			
+			updateItem.setText("Rate us 5 Stars!");
+			
 		}else if(arg0.getComponent() == menuItem){
 			System.out.println("SetDLDirectory Menu Item Selected");
 			parent.chooser.setSize(parent.getSize().width, parent.getSize().height/2);
