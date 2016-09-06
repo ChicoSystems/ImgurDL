@@ -62,20 +62,22 @@ public class InputArea extends JPanel{
             {
             	
             	if(!button.isDownloading()){
-            		
+            	
             		reportHome(textField.getText());
             		
             		//We are not currently downloading, but we want to download.
             		 //Execute when button is pressed
                 	parent.parent.parent.parent.downloader.statsTracker.startTime = System.currentTimeMillis();
-                    System.out.println("You clicked the button");
+                   
                     String gallery = textField.getText();
-                    //gallery = gallery.toLowerCase();
                     button.setDownloading(true);
+                  
                 	parent.parent.parent.guiManager.downloadGallery(gallery);
+                	
                 	parent.parent.parent.parent.setRunning(true);
-                //	textField.transferFocusBackward();
-                	textField.grabFocus();
+                	
+                	textField.transferFocusBackward();
+                	//textField.grabFocus(); //this seems to cause the jmenubar to disappear when used.
                 	
                 	
             	}else{
@@ -87,7 +89,7 @@ public class InputArea extends JPanel{
             		//parent.parent.parent.parent.downloader.queue.
             		
             	}
-               System.out.println("test");
+               System.out.println("Button Clicked");
             }
         });
 	}

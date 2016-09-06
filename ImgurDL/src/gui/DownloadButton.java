@@ -36,8 +36,10 @@ public class DownloadButton extends JButton {
 	 * @param text The Name of the Button.
 	 */
 	public DownloadButton(String text) {
-		super();
-		setText(text);
+		super("  Stop  ");
+		
+		
+		setDownloading(false);
 		setContentAreaFilled(false);
 		setBorderPainted(false);
 		setFont(new Font("Thoma", Font.BOLD, 12));
@@ -201,7 +203,7 @@ public class DownloadButton extends JButton {
 
 	public void setDownloading(boolean isDownloading) {
 		if(isDownloading){
-			setText("Stop");
+			setText("  Stop  ");
 			startColor = new Color(192, 192, 192);
 			endColor = new Color(82, 82, 82);
 			rollOverColor = new Color(223, 52, 61);

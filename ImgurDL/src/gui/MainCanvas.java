@@ -27,7 +27,7 @@ import javax.swing.SwingConstants;
  *
  */
 public class MainCanvas extends JPanel{
-    public JLabel updateLabel;
+   // public JLabel updateLabel;
 	public Color BACKGROUND_COLOR = new Color(18,18,17);
 	public ImgurDLGUI parent; /** The GUI parent Class. */
 	public ImgurDLHeader header; /** The Header That has logo and Input area. */
@@ -43,8 +43,8 @@ public class MainCanvas extends JPanel{
 		setupCanvas();
 		header = new ImgurDLHeader(this);
 		displayArea = new ImgurDLDisplayArea(this);
-		setupUpdateLabel(parent.parent.newerVersionLink, "");
-		updateLabel.setVisible(false);
+		//setupUpdateLabel(parent.parent.newerVersionLink, "");
+		//updateLabel.setVisible(false);
 	}
 	
 	/**
@@ -57,7 +57,7 @@ public class MainCanvas extends JPanel{
 		parent.parent.add(this);
 	}
 	
-	public void setupUpdateLabel(String link, String text){
+	/*public void setupUpdateLabel(String link, String text){
 		updateLabel = new JLabel(text, SwingConstants.CENTER);
 		updateLabel.setForeground(Color.RED);
 		updateLabel.addMouseListener(new MouseAdapter() {
@@ -73,7 +73,7 @@ public class MainCanvas extends JPanel{
 
         });
 		this.add(updateLabel, BorderLayout.SOUTH);
-	}
+	}*/
 
 	
 	/**
