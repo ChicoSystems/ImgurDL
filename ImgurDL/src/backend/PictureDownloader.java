@@ -8,11 +8,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.StringTokenizer;
-//import com.twelvemonkeys.imageio.*;
 
 import javax.imageio.ImageIO;
-
-//import javax.imageio.ImageIO;
 
 /**
  * This class downloads pictures from a web address.
