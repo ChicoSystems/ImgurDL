@@ -128,6 +128,14 @@ Clone repository and import the project into Eclipse.
 
 ## Change Log
 
+#### Loadur NEXT
++ Added Menu
++ Added Directory Chooser - User Now can choose another directory to download to.
++ Moved Update Alert into the Menu.
++ Fixed Menu Disappearing Bug.
++ Fixed Picture Downloading with wrong colors bug.
++ + Java's fault, we had to use the TwelveMonkeys ImageIO plugins to fix it.
+
 #### Loadur v0.2
 + Made textField Auto Focus
 + Enter Button now initiates search.

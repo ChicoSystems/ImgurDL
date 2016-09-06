@@ -1,48 +1,23 @@
 package gui;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
-import javax.swing.border.Border;
-import javax.swing.plaf.metal.MetalBorders;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 /**
  * The input area. Includes a textbox and a button.
@@ -85,21 +60,28 @@ public class InputArea extends JPanel{
 			 
             public void actionPerformed(ActionEvent e)
             {
+            	
             	if(!button.isDownloading()){
+            	
             		reportHome(textField.getText());
+            		
             		//We are not currently downloading, but we want to download.
             		 //Execute when button is pressed
                 	parent.parent.parent.parent.downloader.statsTracker.startTime = System.currentTimeMillis();
-                    System.out.println("You clicked the button");
+                   
                     String gallery = textField.getText();
-                    //gallery = gallery.toLowerCase();
                     button.setDownloading(true);
+                  
                 	parent.parent.parent.guiManager.downloadGallery(gallery);
+                	
                 	parent.parent.parent.parent.setRunning(true);
+                	
                 	textField.transferFocusBackward();
-                	textField.grabFocus();
+                	//textField.grabFocus(); //this seems to cause the jmenubar to disappear when used.
+                	
                 	
             	}else{
+            		parent.parent.parent.parent.menu.setVisible(true);
             		//We are already downloading, we need to stop, and change the button.
             		button.setDownloading(false);
             		parent.parent.parent.parent.setRunning(false);
@@ -107,7 +89,7 @@ public class InputArea extends JPanel{
             		//parent.parent.parent.parent.downloader.queue.
             		
             	}
-               
+               System.out.println("Button Clicked");
             }
         });
 	}

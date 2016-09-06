@@ -33,12 +33,16 @@ public class ImgurDLMain extends JFrame{
 	
 	static int WIDTH_MAINCANVAS = 510;
 	static int HEIGHT_MAINCANVAS = 720;
-	public static String TITLE = "";
+	public static String TITLE = "Loadur";
 	public ImgurDLGUI gui; /** THE GUI */
 	public ImgurGalleryDownloader downloader; /** The Downloader */
 	private boolean isRunning;
 	public String newerVersionName;
 	public String newerVersionLink = "https://sourceforge.net/projects/imgurdl/";
+	public Menu menu;
+	public String directoryName = "";
+	
+	public DirectoryChooser chooser;
 
 	/**
 	 * The launcher.
@@ -56,13 +60,25 @@ public class ImgurDLMain extends JFrame{
 	public ImgurDLMain(){
 		super(TITLE);
 		
-		setupFrame();
+		//setupFrame();
 		isRunning = true;
+		menu = new Menu(this); //instantiate the menu
+		this.setJMenuBar(menu);
+		
+	
+		
 		gui = new ImgurDLGUI(this); //create gui.
 		gui.start(); // Start gui in new thread.
 		
 		downloader = new ImgurGalleryDownloader(this); //Start Image Downloader object.
 		setupFrame();
+		
+		directoryName = System.getProperty("user.dir");
+		System.out.println("using directory: " + directoryName);
+		//setup file chooser
+		chooser = new DirectoryChooser(this);
+		menu.setVisible(true);
+		
 		checkNewerVersion();
 	}
 	
@@ -76,12 +92,16 @@ public class ImgurDLMain extends JFrame{
 		(new Thread() {
 			  public void run() {
 				  if(isNewerVersion()){
-						gui.mainCanvas.updateLabel.setVisible(true);
-						gui.mainCanvas.setupUpdateLabel(newerVersionLink, "Version "+newerVersionName+" available. Click HERE.");
-					gui.mainCanvas.updateUI();
+						//gui.mainCanvas.updateLabel.setVisible(true);
+						//gui.mainCanvas.setupUpdateLabel(newerVersionLink, "Version "+newerVersionName+" available. Click HERE.");
+					//gui.mainCanvas.updateUI();
+					  menu.updateItem.setText("Version "+newerVersionName+" available. Click HERE.");
+					  menu.updateItem.setVisible(true);
+					menu.setVisible(true);
 					
 				  }else{
-						gui.mainCanvas.updateLabel.setVisible(false);
+					  menu.updateItem.setVisible(false);
+						//gui.mainCanvas.updateLabel.setVisible(false);
 					}
 			  }
 			 }).start();
@@ -163,7 +183,7 @@ public class ImgurDLMain extends JFrame{
 	}
 	
 	public static String getVersion(){
-		return "0.2";
+		return "0.2.5";
 	}
 	
 	public JSONObject apiHome(String endpoint, String urlParameters, String method){

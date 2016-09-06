@@ -26,10 +26,8 @@ public class PictureDownloader {
 	 public static void main(String[] args){
 	      PictureDownloader pd = new PictureDownloader(null);
 	      //pd.download("http://i.imgur.com/f0b2Lb.jpg");
-	      String[] list = {"http://i.imgur.com/f0b2Lb.jpg", 
-	    		  			"http://i.imgur.com/PvsEs.jpg",
-	    		  			"http://i.imgur.com/Wthb3.jpg",
-	    		  			"http://i.imgur.com/TqRiA.jpg"};
+	      String[] list = {"http://i.imgur.com/2gvOVAj.jpg", 
+	    		  			"http://i.imgur.com/8UL2zFZ.jpg"};
 	      pd.download(list);
 	      
 	    }
@@ -66,18 +64,20 @@ public class PictureDownloader {
 			   BufferedImage img;
 	    	   URL u = new URL(s);
 	    	   img = ImageIO.read(u);
+	    	   //img.get
 	    	   DataBuffer buff = img.getRaster().getDataBuffer();
 	    	   int bitsInImg = buff.getSize() / 21 * 8; // * DataBuffer.getDataTypeSize(buff.getDataType()) / 8;
 	           String fileName = getFileName(s);
 	           String ext = getExt(s);
 	           System.out.println(fileName + "." + ext);
 	           //ADD PIC TO GUI QUEUE HERE
-	           if(parent.parent.parent != null){
-	           parent.parent.parent.gui.mainCanvas.displayArea.addPicToQueue(resize(img, 125, 125));
+	           if(parent != null && parent.parent != null && parent.parent.parent != null){
+	        	   parent.parent.parent.gui.mainCanvas.displayArea.addPicToQueue(resize(img, 125, 125));
+	        	   parent.parent.statsTracker.totalPicsDownloaded++;
+		           parent.parent.addBits(bitsInImg);
 	           }
 	           save(img, fileName, ext);
-	           parent.parent.statsTracker.totalPicsDownloaded++;
-	           parent.parent.addBits(bitsInImg);
+	           
 	           System.out.println(img);
 	           System.out.println(bitsInImg + " " + fileName);
 	       } catch (IOException e) {
@@ -144,7 +144,16 @@ public class PictureDownloader {
 	  * @param ext The Extention of the Image.
 	  */
 	 private void save(BufferedImage image, String fileName, String ext) {
-	        File file = new File(fileName + "." + ext);
+		 String dirName;
+		 
+		 if(parent != null && parent.parent != null && parent.parent.parent != null){
+			 dirName = parent.parent.parent.directoryName;
+		 }else{
+			 dirName = ".";
+		 }
+		 
+	        File file = new File(dirName + "/" + fileName + "." + ext);
+	        
 	        try {
 	        	ByteArrayOutputStream tmp = new ByteArrayOutputStream();
 	            ImageIO.write(image, ext, file);  // ignore returned boolean
