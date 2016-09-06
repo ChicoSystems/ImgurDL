@@ -1,12 +1,16 @@
 package gui;
 
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
@@ -57,6 +61,8 @@ public class Menu extends JMenuBar implements MouseListener{
 		menuItem.setBackground(bgColor);
 		menuItem.setForeground(fgColor);
 		
+		updateItem.addMouseListener(this);
+		
 		menuItem.addMouseListener(this);
 	}
 
@@ -81,29 +87,40 @@ public class Menu extends JMenuBar implements MouseListener{
 	public void mousePressed(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
+		if(arg0.getComponent() == updateItem){
+			
+		}else if(arg0.getComponent() == menuItem){
+			menuItem.setBackground(clickedColor);
+		}
 				
-				menuItem.setBackground(clickedColor);
 		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		System.out.println("SetDLDirectory Menu Item Selected");
-		parent.chooser.setSize(parent.getSize().width, parent.getSize().height/2);
-		parent.chooser.setLocation(parent.getLocation().x, parent.getHeight()/4);
-		//parent.chooser.setVisible(!parent.chooser.isVisible());
-		//parent.chooser.jFileChooser.getFile
-		//System.out.println(parent.chooser.jFileChooser.showDialog(parent.chooser, "Choose"));
-		
-		int returnVal = parent.chooser.jFileChooser.showSaveDialog(this);
-		if(returnVal == JFileChooser.APPROVE_OPTION) {
-		    File yourFolder = parent.chooser.jFileChooser.getSelectedFile();
-		    System.out.println("directory choosen: " + yourFolder);
-		    parent.directoryName = yourFolder.toString();
-		    //set new dl folder here dads talking to me
+		if(arg0.getComponent() == updateItem){
+			System.out.println("Clicked Update");
+			
+			if (Desktop.isDesktopSupported()) {
+                try {
+                  Desktop.getDesktop().browse(new URI(parent.newerVersionLink));
+                } catch (IOException | URISyntaxException e1) { System.out.println(e1.getMessage());}
+              } else { System.out.println("links not supported"); }
+			
+		}else if(arg0.getComponent() == menuItem){
+			System.out.println("SetDLDirectory Menu Item Selected");
+			parent.chooser.setSize(parent.getSize().width, parent.getSize().height/2);
+			parent.chooser.setLocation(parent.getLocation().x, parent.getHeight()/4);
+			int returnVal = parent.chooser.jFileChooser.showSaveDialog(this);
+			if(returnVal == JFileChooser.APPROVE_OPTION) {
+			    File yourFolder = parent.chooser.jFileChooser.getSelectedFile();
+			    System.out.println("directory choosen: " + yourFolder);
+			    parent.directoryName = yourFolder.toString();
+			}
+			menuItem.setBackground(bgColor);
 		}
-		menuItem.setBackground(bgColor);
+		
+		
 		
 	}
 
