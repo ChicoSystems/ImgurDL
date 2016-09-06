@@ -3,11 +3,11 @@
 	<classpathentry kind="src" path="ImgurDL/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="ImgurDL/json-simple-1.1.1.jar"/>
-	<classpathentry kind="lib" path="/home/slack/workspace/ImgurDL/ImgurDL/common-image-3.2.1.jar"/>
-	<classpathentry kind="lib" path="/home/slack/workspace/ImgurDL/ImgurDL/common-io-3.2.1.jar"/>
-	<classpathentry kind="lib" path="/home/slack/workspace/ImgurDL/ImgurDL/common-lang-3.2.1.jar"/>
-	<classpathentry kind="lib" path="/home/slack/workspace/ImgurDL/ImgurDL/imageio-core-3.2.1.jar"/>
-	<classpathentry kind="lib" path="/home/slack/workspace/ImgurDL/ImgurDL/imageio-jpeg-3.2.1.jar"/>
-	<classpathentry kind="lib" path="/home/slack/workspace/ImgurDL/ImgurDL/imageio-metadata-3.2.1.jar"/>
+	<classpathentry kind="lib" path="ImgurDL/common-image-3.2.1.jar"/>
+	<classpathentry kind="lib" path="ImgurDL/common-io-3.2.1.jar"/>
+	<classpathentry kind="lib" path="ImgurDL/common-lang-3.2.1.jar"/>
+	<classpathentry kind="lib" path="ImgurDL/imageio-core-3.2.1.jar"/>
+	<classpathentry kind="lib" path="ImgurDL/imageio-jpeg-3.2.1.jar"/>
+	<classpathentry kind="lib" path="ImgurDL/imageio-metadata-3.2.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

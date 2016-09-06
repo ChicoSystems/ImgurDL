@@ -29,8 +29,8 @@ public class PictureDownloader {
 	 public static void main(String[] args){
 	      PictureDownloader pd = new PictureDownloader(null);
 	      //pd.download("http://i.imgur.com/f0b2Lb.jpg");
-	      String[] list = {"http://i.imgur.com/9BtSNXA.jpg", 
-	    		  			"http://i.imgur.com/U47oMpO.jpg"};
+	      String[] list = {"http://i.imgur.com/2gvOVAj.jpg", 
+	    		  			"http://i.imgur.com/8UL2zFZ.jpg"};
 	      pd.download(list);
 	      
 	    }
