@@ -22,6 +22,7 @@ public class Menu extends JMenuBar implements MouseListener{
 	private ImgurDLMain parent;
 	private JMenu menu;
 	private JMenuItem menuItem;
+	public JMenuItem updateItem;
 	private Color bgColor;
 	private Color fgColor = Color.GREEN;
 	private Color clickedColor;
@@ -34,10 +35,14 @@ public class Menu extends JMenuBar implements MouseListener{
 		clickedColor = new Color(100, 100, 100, 255);
 		//menu = new JMenu("Options");
 		menuItem = new JMenuItem("Set DL Directory");
+		updateItem = new JMenuItem("New Version Available");
+		updateItem.setVisible(false);
+		//updateItem.setText(text);
 		
 		//menu.add(menuItem);
 		//add(menu);
 		add(menuItem);
+		add(updateItem);
 		
 		//set look and feel
 		setBackground(bgColor);

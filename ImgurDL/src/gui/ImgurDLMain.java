@@ -92,13 +92,16 @@ public class ImgurDLMain extends JFrame{
 		(new Thread() {
 			  public void run() {
 				  if(isNewerVersion()){
-						gui.mainCanvas.updateLabel.setVisible(true);
-						gui.mainCanvas.setupUpdateLabel(newerVersionLink, "Version "+newerVersionName+" available. Click HERE.");
-					gui.mainCanvas.updateUI();
+						//gui.mainCanvas.updateLabel.setVisible(true);
+						//gui.mainCanvas.setupUpdateLabel(newerVersionLink, "Version "+newerVersionName+" available. Click HERE.");
+					//gui.mainCanvas.updateUI();
+					  menu.updateItem.setText("Version "+newerVersionName+" available. Click HERE.");
+					  menu.updateItem.setVisible(true);
 					menu.setVisible(true);
 					
 				  }else{
-						gui.mainCanvas.updateLabel.setVisible(false);
+					  menu.updateItem.setVisible(false);
+						//gui.mainCanvas.updateLabel.setVisible(false);
 					}
 			  }
 			 }).start();
@@ -180,7 +183,7 @@ public class ImgurDLMain extends JFrame{
 	}
 	
 	public static String getVersion(){
-		return "0.1";
+		return "0.2";
 	}
 	
 	public JSONObject apiHome(String endpoint, String urlParameters, String method){
