@@ -187,7 +187,7 @@ public class ImgurDLMain extends JFrame{
 	}
 	
 	public JSONObject apiHome(String endpoint, String urlParameters, String method){
-		 String YOUR_REQUEST_URL = "http://chicosystems.com:3000/api/"+endpoint;
+		 String YOUR_REQUEST_URL = "http://api.chicosystems.com:3000/api/"+endpoint;
 		// String YOUR_REQUEST_URL = "http://chicosystems.com:3000/api/imgurdl/adduse";
 		 URL imgURL;
 		

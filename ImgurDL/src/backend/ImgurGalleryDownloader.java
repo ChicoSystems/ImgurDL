@@ -1,7 +1,8 @@
 package backend;
 import gui.ImgurDLGUI;
 import gui.ImgurDLMain;
-import sun.net.www.http.HttpClient;
+//import sun.net.www.http.HttpClient;
+import java.net.http.HttpClient;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;

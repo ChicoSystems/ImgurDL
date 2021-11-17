@@ -1,0 +1,13 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\Users\\17076\\Desktop\\Workspace\\ImgurDL\\ImgurDL\\common-image-3.2.1.jar",
+        "c:\\Users\\17076\\Desktop\\Workspace\\ImgurDL\\ImgurDL\\common-io-3.2.1.jar",
+        "c:\\Users\\17076\\Desktop\\Workspace\\ImgurDL\\ImgurDL\\common-lang-3.2.1.jar",
+        "c:\\Users\\17076\\Desktop\\Workspace\\ImgurDL\\ImgurDL\\imageio-core-3.2.1.jar",
+        "c:\\Users\\17076\\Desktop\\Workspace\\ImgurDL\\ImgurDL\\imageio-jpeg-3.2.1.jar",
+        "c:\\Users\\17076\\Desktop\\Workspace\\ImgurDL\\ImgurDL\\imageio-metadata-3.2.1.jar",
+        "c:\\Users\\17076\\Desktop\\Workspace\\ImgurDL\\ImgurDL\\ImgurDL.jar",
+        "c:\\Users\\17076\\Desktop\\Workspace\\ImgurDL\\ImgurDL\\json-simple-1.1.1.jar"
+    ]
+}
