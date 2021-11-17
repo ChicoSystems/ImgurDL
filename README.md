@@ -128,7 +128,11 @@ Clone repository and import the project into Eclipse.
 
 ## Change Log
 
-#### Loadur NEXT
+#### Loadur v0.3
++ Updated backend url from chicosystems.com:3000 to api.chicosystems.com:3000
++ Changed library for http connection to something included in jdk 11+
+
+#### Loadur v0.2.5
 + Added Menu
 + Added Directory Chooser - User Now can choose another directory to download to.
 + Moved Update Alert into the Menu.

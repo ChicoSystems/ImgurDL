@@ -183,11 +183,11 @@ public class ImgurDLMain extends JFrame{
 	}
 	
 	public static String getVersion(){
-		return "0.2.5";
+		return "0.3";
 	}
 	
 	public JSONObject apiHome(String endpoint, String urlParameters, String method){
-		 String YOUR_REQUEST_URL = "http://chicosystems.com:3000/api/"+endpoint;
+		 String YOUR_REQUEST_URL = "http://api.chicosystems.com:3000/api/"+endpoint;
 		// String YOUR_REQUEST_URL = "http://chicosystems.com:3000/api/imgurdl/adduse";
 		 URL imgURL;
 		
